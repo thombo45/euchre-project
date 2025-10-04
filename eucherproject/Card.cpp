@@ -348,17 +348,25 @@ bool Card_less(const Card &a, const Card &b, Suit trump){
         }
         else return false;
     }
-    
- //   assert(false);
-
 }
 
 
 //EFFECTS Returns true if a is lower value than b.  Uses both the trump suit
 //  and the suit led to determine order, as described in the spec.
 bool Card_less(const Card &a, const Card &b, const Card &led_card, Suit trump){
-   // assert(false);
-    return true;
+      if(trump == led_card.get_suit() ||
+      a.is_trump(trump) || b.is_trump(trump)) {
+        return Card_less(a, b, trump);
+    }
+    else if(a.get_suit() == led_card.get_suit()
+    && b.get_suit() != led_card.get_suit()){
+        return false;
+    }
+    else if(a.get_suit() != led_card.get_suit()
+    && b.get_suit() == led_card.get_suit()){
+            return false;
+    }
+    return a < b;
 }
 
 
