@@ -6,6 +6,8 @@
 const int firstCard = 0;
 const int LastCard = 23;
 const int startArray = 7;
+const int ranks = 13;
+const int suits = 4;
 
 
   // EFFECTS: Initializes the Pack to be in the following standard order:
@@ -16,7 +18,18 @@ const int startArray = 7;
   // NOTE: Do NOT use pack.in in your implementation of this function
   // NOTE: The pack is initially full, with no cards dealt.
   Pack::Pack() {
-
+    next = firstCard;
+    int j  = startArray;
+    int k = 0;
+    for (int i = 0; i != PACK_SIZE; ++i) {
+      Card card(static_cast<Rank>(j), static_cast<Suit>(k));
+      cards[i] = card;
+      ++j;
+      if (j == ranks) {
+        j = startArray;
+        ++k;
+      }
+    }
   }
 
   // REQUIRES: pack_input contains a representation of a Pack in the
@@ -26,12 +39,18 @@ const int startArray = 7;
   // NOTE: The pack is initially full, with no cards dealt.
   Pack::Pack(std::istream& pack_input) {
     next = firstCard;
-    std::string rank, suit, of;
+    std::string rank;
+    std::string suit;
+    std::string of;
+    std::string rank_str;
+    std::string suit_str;
 
     for (int i = 0; i != PACK_SIZE; ++i) {
         pack_input >> rank >> of >> suit;
-        Card card(Rank rank_in, Suit suit_in);
-        cards[i];
+        Rank rank = string_to_rank(rank_str);
+        Suit suit = string_to_suit(suit_str);
+        Card card(rank, suit);
+        cards[i] = card;
     }
   }
 
