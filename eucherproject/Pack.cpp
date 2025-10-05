@@ -16,19 +16,7 @@ const int startArray = 7;
   // NOTE: Do NOT use pack.in in your implementation of this function
   // NOTE: The pack is initially full, with no cards dealt.
   Pack::Pack() {
-    /*next = firstCard;
-    int j = startArray;
-    int k = 0;
-    for (int i = 0; i != PACK_SIZE; ++i) {
-        Card card(Rank(j), k);
-        cards[i] = card;
-        ++j;
 
-        if (j == Rank(13)) {
-            j = startArray;
-            ++k;
-        }
-    }*/
   }
 
   // REQUIRES: pack_input contains a representation of a Pack in the
