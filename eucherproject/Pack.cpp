@@ -42,14 +42,12 @@ const int suits = 4;
     std::string rank;
     std::string suit;
     std::string of;
-    std::string rank_str;
-    std::string suit_str;
 
     for (int i = 0; i != PACK_SIZE; ++i) {
         pack_input >> rank >> of >> suit;
-        Rank rank = string_to_rank(rank_str);
-        Suit suit = string_to_suit(suit_str);
-        Card card(rank, suit);
+        Rank r = string_to_rank(rank);
+        Suit s = string_to_suit(suit);
+        Card card(r, s);
         cards[i] = card;
     }
   }
