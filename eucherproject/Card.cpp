@@ -31,7 +31,7 @@ Rank string_to_rank(const std::string &str) {
       return static_cast<Rank>(r);
     }
   }
-  assert(false); // Input string didn't match any rank
+
   return {};
 }
 
@@ -70,7 +70,7 @@ Suit string_to_suit(const std::string &str) {
       return static_cast<Suit>(s);
     }
   }
-  assert(false); // Input string didn't match any suit
+ 
   return {};
 }
 
@@ -122,22 +122,6 @@ Suit Card::get_suit() const{
 //EFFECTS Returns the suit
 //HINT: the left bower is the trump suit!
 Suit Card::get_suit(Suit trump) const{
-    /*
-    if(trump == SPADES || trump == CLUBS){
-        if(suit == SPADES || suit == CLUBS){
-            if(rank == JACK){
-                return trump;
-            }
-        }
-    }
-    
-    if(trump == DIAMONDS || trump == HEARTS){
-        if(suit == DIAMONDS || suit == HEARTS){
-            if(rank == JACK){
-                return trump;
-            }
-        }
-    }*/
     if(is_left_bower(trump) == true){
         return trump;
     }

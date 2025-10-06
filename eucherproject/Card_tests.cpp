@@ -103,10 +103,11 @@ TEST(test_card_less) {
 
     ASSERT_FALSE(Card_less(jackHearts, kingSpades, sixSpades, HEARTS));
     ASSERT_FALSE(Card_less(jackDiamonds, kingSpades, sixSpades, HEARTS));
-    ASSERT_FALSE(Card_less(jackHearts, kingSpades, sixSpades, DIAMONDS));
+    ASSERT_FALSE(Card_less(jackHearts, kingDiamonds, sixSpades, DIAMONDS));
     ASSERT_FALSE(Card_less(jackDiamonds, kingSpades, sixSpades, DIAMONDS));
     ASSERT_FALSE(Card_less(jackHearts, kingHearts, sixHearts, HEARTS));
     ASSERT_FALSE(Card_less(jackSpades, kingSpades, sixSpades, CLUBS));
+    ASSERT_FALSE(Card_less(jackClubs, kingClubs, sixClubs, CLUBS));
     ASSERT_FALSE(Card_less(jackSpades, kingSpades, sixSpades, SPADES));
     ASSERT_TRUE(Card_less(jackSpades, kingSpades, sixSpades, DIAMONDS));
     ASSERT_TRUE(Card_less(sixHearts, sixSpades, tenHearts, CLUBS));
@@ -117,7 +118,7 @@ TEST(test_card_less) {
     ASSERT_FALSE(Card_less(tenHearts, kingSpades, HEARTS));
     ASSERT_FALSE(Card_less(jackDiamonds, jackHearts, DIAMONDS));
     ASSERT_TRUE(Card_less(sixSpades, tenSpades, SPADES));
-    ASSERT_TRUE(Card_less(kingSpades, jackClubs, SPADES));
+    ASSERT_TRUE(Card_less(kingClubs, jackSpades, CLUBS));
     ASSERT_TRUE(Card_less(kingSpades, jackDiamonds, DIAMONDS));
     ASSERT_FALSE(Card_less(jackDiamonds, kingSpades, DIAMONDS));
     ASSERT_FALSE(Card_less(sixDiamonds, sixHearts, DIAMONDS));
