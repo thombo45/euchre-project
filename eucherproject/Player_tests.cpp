@@ -225,11 +225,11 @@ TEST(will_make_trump_round_2_is_dealer){
 
 TEST(add_discard_UpCard){
     Player * Noah = Player_factory("Noah", "Simple");
-    Card c1(THREE, DIAMONDS);
-    Card c2(JACK, CLUBS);
-    Card c3(ACE, CLUBS);
-    Card c4(KING, CLUBS);
-    Card c5(NINE, CLUBS);
+    Card c1(THREE, HEARTS);
+    Card c2(JACK, HEARTS);
+    Card c3(ACE, HEARTS);
+    Card c4(KING, HEARTS);
+    Card c5(NINE, HEARTS);
     
     Card UpC(TWO, HEARTS);
     
@@ -246,17 +246,67 @@ TEST(add_discard_UpCard){
     ASSERT_NOT_EQUAL(Noah -> get_card(2), UpC);
     ASSERT_NOT_EQUAL(Noah -> get_card(3), UpC);
     ASSERT_NOT_EQUAL(Noah -> get_card(4), UpC);
+    
+    delete Noah;
+}
+TEST(add_discard_UpCard_only_trump){
+    Player * Noah = Player_factory("Noah", "Simple");
+    Card c1(THREE, HEARTS);
+    Card c2(JACK, DIAMONDS);
+    Card c3(ACE, HEARTS);
+    Card c4(KING, CLUBS);
+    Card c5(NINE, HEARTS);
+    
+    Card UpC(TWO, SPADES);
+    
+    Noah -> add_card(c1);
+    Noah -> add_card(c2);
+    Noah -> add_card(c3);
+    Noah -> add_card(c4);
+    Noah -> add_card(c5);
+    
+    Noah -> add_and_discard(UpC);
+    
+    ASSERT_NOT_EQUAL(Noah -> get_card(0), c1);
+    ASSERT_NOT_EQUAL(Noah -> get_card(1), c1);
+    ASSERT_NOT_EQUAL(Noah -> get_card(2), c1);
+    ASSERT_NOT_EQUAL(Noah -> get_card(3), c1);
+    ASSERT_NOT_EQUAL(Noah -> get_card(4), c1);
+    
+    bool found_TH = false;
+    
+    if(Noah -> get_card(0) == UpC){
+        found_TH = true;
+    }
+    else if (Noah ->get_card(1) == UpC) {
+        found_TH = true;
+    }
+    else if (Noah ->get_card(2) == UpC) {
+        found_TH = true;
+    }
+    else if (Noah ->get_card(3) == UpC) {
+        found_TH = true;
+    }
+    else if (Noah ->get_card(4) == UpC) {
+        found_TH = true;
+    }
+   
+    
+    ASSERT_EQUAL(found_TH, true);
+    
+    delete Noah;
 }
 
 TEST(add_discard_Keep_UpCard){
     Player * Noah = Player_factory("Noah", "Simple");
-    Card c1(THREE, DIAMONDS);
-    Card c2(JACK, CLUBS);
-    Card c3(ACE, CLUBS);
-    Card c4(KING, CLUBS);
-    Card c5(NINE, CLUBS);
+    Card c1(THREE, HEARTS);
+    Card c2(JACK, HEARTS);
+    Card c3(ACE, HEARTS);
+    Card c4(KING, HEARTS);
+    Card c5(KING, CLUBS);
     
-    Card UpC(TWO, HEARTS);
+    Card UpC(TEN, HEARTS);
+    Card Test(KING, CLUBS);
     
     Noah -> add_card(c1);
     Noah -> add_card(c2);
@@ -266,12 +316,132 @@ TEST(add_discard_Keep_UpCard){
     
     Noah -> add_and_discard(UpC);
     
-    ASSERT_NOT_EQUAL(Noah -> get_card(0), UpC);
-    ASSERT_NOT_EQUAL(Noah -> get_card(1), UpC);
-    ASSERT_NOT_EQUAL(Noah -> get_card(2), UpC);
-    ASSERT_NOT_EQUAL(Noah -> get_card(3), UpC);
-    ASSERT_NOT_EQUAL(Noah -> get_card(4), UpC);
+    ASSERT_NOT_EQUAL(Noah -> get_card(0), Test);
+    ASSERT_NOT_EQUAL(Noah -> get_card(1), Test);
+    ASSERT_NOT_EQUAL(Noah -> get_card(2), Test);
+    ASSERT_NOT_EQUAL(Noah -> get_card(3), Test);
+    ASSERT_NOT_EQUAL(Noah -> get_card(4), Test);
+    
+    
+    bool found_TH = false;
+    
+    if(Noah -> get_card(0) == UpC){
+        found_TH = true;
+    }
+    else if (Noah ->get_card(1) == UpC) {
+        found_TH = true;
+    }
+    else if (Noah ->get_card(2) == UpC) {
+        found_TH = true;
+    }
+    else if (Noah ->get_card(3) == UpC) {
+        found_TH = true;
+    }
+    else if (Noah ->get_card(4) == UpC) {
+        found_TH = true;
+    }
+   
+    
+    ASSERT_EQUAL(found_TH, true);
+    
+    delete Noah;
+    }
+
+TEST(lead_card_all_non_trump){
+    Player * Noah = Player_factory("Noah", "Simple");
+    Card c1(THREE, HEARTS);
+    Card c2(JACK, SPADES);
+    Card c3(ACE, HEARTS);
+    Card c4(KING, HEARTS);
+    Card c5(KING, CLUBS);
+    
+    Suit s = DIAMONDS;
+    Card test;
+    
+    Noah -> add_card(c1);
+    Noah -> add_card(c2);
+    Noah -> add_card(c3);
+    Noah -> add_card(c4);
+    Noah -> add_card(c5);
+    
+    test = Noah -> lead_card(s);
+    
+    ASSERT_TRUE(test == c3);
+    
+    ASSERT_NOT_EQUAL(Noah -> get_card(0), c3);
+    ASSERT_NOT_EQUAL(Noah -> get_card(1), c3);
+    ASSERT_NOT_EQUAL(Noah -> get_card(2), c3);
+    ASSERT_NOT_EQUAL(Noah -> get_card(3), c3);
+    ASSERT_NOT_EQUAL(Noah -> get_card(4), c3);
+    
+    delete Noah;
+    
 }
+
+TEST(lead_card_with_trump_and_LB){
+    Player * Noah = Player_factory("Noah", "Simple");
+    Card c1(THREE, DIAMONDS);
+    Card c2(JACK, HEARTS);
+    Card c3(ACE, DIAMONDS);
+    Card c4(KING, HEARTS);
+    Card c5(QUEEN, CLUBS);
+    
+    Suit s = DIAMONDS;
+    Card test;
+    
+    Noah -> add_card(c1);
+    Noah -> add_card(c2);
+    Noah -> add_card(c3);
+    Noah -> add_card(c4);
+    Noah -> add_card(c5);
+    
+    test = Noah -> lead_card(s);
+    
+    
+    ASSERT_TRUE(test == c4);
+    
+    ASSERT_NOT_EQUAL(Noah -> get_card(0), c4);
+    ASSERT_NOT_EQUAL(Noah -> get_card(1), c4);
+    ASSERT_NOT_EQUAL(Noah -> get_card(2), c4);
+    ASSERT_NOT_EQUAL(Noah -> get_card(3), c4);
+    ASSERT_NOT_EQUAL(Noah -> get_card(4), c4);
+    
+    delete Noah;
+    
+}
+
+TEST(lead_card_all_trump_RB_vs_LB){
+    Player * Noah = Player_factory("Noah", "Simple");
+    Card c1(JACK, DIAMONDS);
+    Card c2(JACK, HEARTS);
+    Card c3(ACE, DIAMONDS);
+    Card c4(KING, DIAMONDS);
+    Card c5(QUEEN, DIAMONDS);
+    
+    Suit s = DIAMONDS;
+    Card test;
+    
+    Noah -> add_card(c1);
+    Noah -> add_card(c2);
+    Noah -> add_card(c3);
+    Noah -> add_card(c4);
+    Noah -> add_card(c5);
+    
+    test = Noah -> lead_card(s);
+    
+    
+    ASSERT_TRUE(test == c1);
+    
+    ASSERT_NOT_EQUAL(Noah -> get_card(0), c1);
+    ASSERT_NOT_EQUAL(Noah -> get_card(1), c1);
+    ASSERT_NOT_EQUAL(Noah -> get_card(2), c1);
+    ASSERT_NOT_EQUAL(Noah -> get_card(3), c1);
+    ASSERT_NOT_EQUAL(Noah -> get_card(4), c1);
+    
+    delete Noah;
+}
+
+
 
 // Add more tests here
 

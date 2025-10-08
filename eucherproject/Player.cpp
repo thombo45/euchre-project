@@ -62,21 +62,26 @@ class Simple : public Player {
         assert(hand.size() >= 1);
         int handIndex = 0;
         Card low = hand[0];
+        hand.push_back(upcard);
         for (int i = 0, size = hand.size(); i != size; ++i) {
             if (Card_less(hand[i], low, upcard.get_suit())) {
                 low = hand[i];
-                handIndex = 1;
+                handIndex = i;
             }
         }
         hand.erase(hand.begin() + handIndex);
     }
     Card lead_card(Suit trump) override {
+        
         Card high;
         int nonTrump = 0;
         int handIndex = 0;
         for (int i = 0, size = hand.size(); i != size; ++i) {
+            //cycle through cards
             if(nonTrump == 0) {
+                //if we have yet to find a trump card
                 if (!hand[i].is_trump(trump)) {
+                    //if the current card is not trump
                     high = hand[i];
                     handIndex = i;
                     nonTrump = 1;
@@ -97,6 +102,7 @@ class Simple : public Player {
         }
         hand.erase(hand.begin() + handIndex);
         return high;
+         
     }
      Card play_card(const Card &led_card, Suit trump) override {
         Card high, low;

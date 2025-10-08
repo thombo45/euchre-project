@@ -270,11 +270,28 @@ bool operator>=(const Card &lhs, const Card &rhs){
 
 //EFFECTS Returns true if lhs is same card as rhs.
 //  Does not consider trump.
-bool operator==(const Card &lhs, const Card &rhs){ //not sure if meant to consider suit
-    if(lhs.get_rank() == rhs.get_rank()){
+bool operator==(const Card &lhs, const Card &rhs){
+    Rank lhs_R = lhs.get_rank();
+    Suit lhs_S = lhs.get_suit();
+    Rank rhs_R = rhs.get_rank();
+    Suit rhs_S = rhs.get_suit();
+    
+    
+    if(lhs_R == rhs_R && lhs_S == rhs_S){
         return true;
     }
+    else{return false;}
+    
+    /*
+    if(lhs.get_rank() == rhs.get_rank()){
+        if(lhs.get_suit() == rhs.get_suit()){
+            return true;
+        }
+        else{return false;}
+    }
     else return false;
+     */
+     
 }
 
 
@@ -282,10 +299,26 @@ bool operator==(const Card &lhs, const Card &rhs){ //not sure if meant to consid
 //  Does not consider trump.
 bool operator!=(const Card &lhs, const Card &rhs){
     //not sure if its supposed to consider suit
-    if(lhs.get_rank() != rhs.get_rank()){
+    Rank lhs_R = lhs.get_rank();
+    Suit lhs_S = lhs.get_suit();
+    Rank rhs_R = rhs.get_rank();
+    Suit rhs_S = rhs.get_suit();
+    
+    
+    if(lhs_R != rhs_R || lhs_S != rhs_S){
         return true;
     }
+    else{return false;}
+    /*
+    if(lhs.get_rank() != rhs.get_rank()){
+        if(lhs.get_suit() != rhs.get_suit()){
+            return true;
+        }
+        else {return false;}
+    }
     else return false;
+     */
+     
 }
 
 
@@ -308,19 +341,38 @@ Suit Suit_next(Suit suit){
 // order, as described in the spec.
 bool Card_less(const Card &a, const Card &b, Suit trump){
     if(a.get_suit() != trump && b.get_suit() == trump){
-        return true;
+        return true; //is a is not trump and b is true
     }
     else if(a.get_suit() == trump && b.get_suit() != trump){
-        return false;
+        return false; //if a is trump and be is not false
     }
     else if(a.get_suit() != trump && b.get_suit() != trump){
         if(a < b){
+        //if they are both not trump & alesss than b true
             return true;
         }
         else return false;
     }
     else{ //if both are trump
         
+        if(a.get_rank() == JACK && b.get_rank() != JACK){
+            return false;
+        }
+        else if(a.get_rank() != JACK && b.get_rank() == JACK){
+            return true;
+        }
+        else if(a.get_rank() == JACK && b.get_rank() == JACK){
+            if(a.is_left_bower(trump)){
+                return true;
+            }
+            else{return false;}
+        }
+        else if(a< b){
+            return true;
+        }
+        else{return false;}
+        
+        /*
         if(a < b){
             return true;
         }
@@ -331,6 +383,8 @@ bool Card_less(const Card &a, const Card &b, Suit trump){
             else return false;
         }
         else return false;
+         
+         */
     }
 }
 
