@@ -263,6 +263,7 @@ Player * Player_factory(const std::string &name, const std::string &strategy){
     if (strategy == "Human") {
         return new Human(name);
     }
+    assert(false);
     return nullptr;
 }
 
@@ -271,4 +272,3 @@ std::ostream & operator<<(std::ostream &os, const Player &p){
     os << p.get_name();
     return os;
 }
-

@@ -17,8 +17,8 @@
 class Player {
  public:
   //added function to get card
-  virtual Card get_card(int i = 0);
-
+  virtual Card get_card(int i) = 0;
+  
   //EFFECTS returns player's name
   virtual const std::string & get_name() const = 0;
 
