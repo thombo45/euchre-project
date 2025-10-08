@@ -440,8 +440,169 @@ TEST(lead_card_all_trump_RB_vs_LB){
     
     delete Noah;
 }
+TEST(play_card_follow_suit_not_trump){
+    Player * Noah = Player_factory("Noah", "Simple");
+    Card c1(JACK, DIAMONDS);
+    Card c2(JACK, HEARTS);
+    Card c3(ACE, DIAMONDS);
+    Card c4(KING, DIAMONDS);
+    Card c5(QUEEN, DIAMONDS);
+    
+    Suit trump = CLUBS;
+    Card card_led(TWO, DIAMONDS);
+    Card card_played;
+    
+    Noah -> add_card(c1);
+    Noah -> add_card(c2);
+    Noah -> add_card(c3);
+    Noah -> add_card(c4);
+    Noah -> add_card(c5);
+    
+    card_played = Noah -> play_card(card_led, trump);
+    
+    ASSERT_TRUE(card_played == c3);
+    
+    ASSERT_NOT_EQUAL(Noah -> get_card(0), c3);
+    ASSERT_NOT_EQUAL(Noah -> get_card(1), c3);
+    ASSERT_NOT_EQUAL(Noah -> get_card(2), c3);
+    ASSERT_NOT_EQUAL(Noah -> get_card(3), c3);
+    ASSERT_NOT_EQUAL(Noah -> get_card(4), c3);
+    
+    delete Noah;
+}
 
+TEST(play_card_follow_suit_with_trump){
+    Player * Noah = Player_factory("Noah", "Simple");
+    Card c1(JACK, DIAMONDS);
+    Card c2(JACK, HEARTS);
+    Card c3(ACE, DIAMONDS);
+    Card c4(KING, DIAMONDS);
+    Card c5(QUEEN, DIAMONDS);
+    
+    Suit trump = DIAMONDS;
+    Card card_led(TWO, DIAMONDS);
+    Card card_played;
+    
+    Noah -> add_card(c1);
+    Noah -> add_card(c2);
+    Noah -> add_card(c3);
+    Noah -> add_card(c4);
+    Noah -> add_card(c5);
+    
+    card_played = Noah -> play_card(card_led, trump);
+    
+    cout << card_played << " == " << c1<< endl;
+    ASSERT_TRUE(card_played == c1);
+    
+    ASSERT_NOT_EQUAL(Noah -> get_card(0), c1);
+    ASSERT_NOT_EQUAL(Noah -> get_card(1), c1);
+    ASSERT_NOT_EQUAL(Noah -> get_card(2), c1);
+    ASSERT_NOT_EQUAL(Noah -> get_card(3), c1);
+    ASSERT_NOT_EQUAL(Noah -> get_card(4), c1);
+    
+    delete Noah;
+}
 
+TEST(play_card_cant_follow_suit_no_trump){
+    Player * Noah = Player_factory("Noah", "Simple");
+    Card c1(JACK, DIAMONDS);
+    Card c2(THREE, HEARTS);
+    Card c3(ACE, DIAMONDS);
+    Card c4(KING, DIAMONDS);
+    Card c5(QUEEN, DIAMONDS);
+    
+    Suit trump = CLUBS;
+    Card card_led(TWO, CLUBS);
+    Card card_played;
+    
+    Noah -> add_card(c1);
+    Noah -> add_card(c2);
+    Noah -> add_card(c3);
+    Noah -> add_card(c4);
+    Noah -> add_card(c5);
+    
+    card_played = Noah -> play_card(card_led, trump);
+    
+    ASSERT_TRUE(card_played == c2);
+    
+    ASSERT_NOT_EQUAL(Noah -> get_card(0), c2);
+    ASSERT_NOT_EQUAL(Noah -> get_card(1), c2);
+    ASSERT_NOT_EQUAL(Noah -> get_card(2), c2);
+    ASSERT_NOT_EQUAL(Noah -> get_card(3), c2);
+    ASSERT_NOT_EQUAL(Noah -> get_card(4), c2);
+    
+    delete Noah;
+    
+}
+TEST(play_card_cant_follow_suit_with_trump){
+    Player * Noah = Player_factory("Noah", "Simple");
+    Card c1(JACK, DIAMONDS);
+    Card c2(THREE, HEARTS);
+    Card c3(ACE, DIAMONDS);
+    Card c4(KING, DIAMONDS);
+    Card c5(QUEEN, DIAMONDS);
+    
+    Suit trump = HEARTS;
+    Card card_led(TWO, CLUBS);
+    Card card_played;
+    
+    Noah -> add_card(c1);
+    Noah -> add_card(c2);
+    Noah -> add_card(c3);
+    Noah -> add_card(c4);
+    Noah -> add_card(c5);
+    
+    card_played = Noah -> play_card(card_led, trump);
+    
+    cout << card_played << " == " << c5 << endl;
+    //plays left bower instead of queen (lowest card)
+    //might be issue with Card_less with 4 parameters
+    ASSERT_TRUE(card_played == c5);
+    
+    ASSERT_NOT_EQUAL(Noah -> get_card(0), c5);
+    ASSERT_NOT_EQUAL(Noah -> get_card(1), c5);
+    ASSERT_NOT_EQUAL(Noah -> get_card(2), c5);
+    ASSERT_NOT_EQUAL(Noah -> get_card(3), c5);
+    ASSERT_NOT_EQUAL(Noah -> get_card(4), c5);
+    
+    delete Noah;
+    
+}
+
+TEST(play_card_cant_follow_suit_all_trump){
+    Player * Noah = Player_factory("Noah", "Simple");
+    Card c1(JACK, DIAMONDS);
+    Card c2(JACK, HEARTS);
+    Card c3(ACE, DIAMONDS);
+    Card c4(KING, DIAMONDS);
+    Card c5(QUEEN, DIAMONDS);
+    
+    Suit trump = DIAMONDS;
+    Card card_led(TWO, CLUBS);
+    Card card_played;
+    
+    Noah -> add_card(c1);
+    Noah -> add_card(c2);
+    Noah -> add_card(c3);
+    Noah -> add_card(c4);
+    Noah -> add_card(c5);
+    
+    card_played = Noah -> play_card(card_led, trump);
+    
+    cout << card_played << " == " << c5 << endl;
+    //plays left bower instead of queen (lowest card)
+    //might be issue with Card_less with 4 parameters
+    ASSERT_TRUE(card_played == c5);
+    
+    ASSERT_NOT_EQUAL(Noah -> get_card(0), c5);
+    ASSERT_NOT_EQUAL(Noah -> get_card(1), c5);
+    ASSERT_NOT_EQUAL(Noah -> get_card(2), c5);
+    ASSERT_NOT_EQUAL(Noah -> get_card(3), c5);
+    ASSERT_NOT_EQUAL(Noah -> get_card(4), c5);
+    
+    delete Noah;
+    
+}
 
 // Add more tests here
 
