@@ -11,7 +11,7 @@ using std::string;
 
 class Simple : public Player {
     public:
-    Card get_card(int i = 0) override {
+    Card get_card(int i) override {
         return hand[i];
     }
     Simple(const string &inName) {
@@ -159,7 +159,7 @@ public:
             std::cout << "Human player " << name << "'s hand: " << "[" << i << "] " << temp[i] << '\n';
         }
     }
-    Card get_card(int i = 0) override {
+    Card get_card(int i) override {
         return hand[i];
     }
     Human(const string &inName) {
