@@ -17,14 +17,14 @@
 class Player {
  public:
   //added function to get card
-  virtual Card get_card(int i) = 0;
+  virtual Card get_card(int i) = 0; //TEST DONE
   
   //EFFECTS returns player's name
-  virtual const std::string & get_name() const = 0;
+  virtual const std::string & get_name() const = 0; //test done
 
   //REQUIRES player has less than MAX_HAND_SIZE cards
   //EFFECTS  adds Card c to Player's hand
-  virtual void add_card(const Card &c) = 0;
+  virtual void add_card(const Card &c) = 0; //TEST DONE
 
   //REQUIRES round is 1 or 2
   //MODIFIES order_up_suit
