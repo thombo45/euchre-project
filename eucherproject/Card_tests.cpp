@@ -31,6 +31,7 @@ TEST(test_card_rank_suit) {
 TEST(test_card_type) {
     Card queenSpades = Card(QUEEN, SPADES);
 
+    ASSERT_FALSE(queenSpades.is_trump(DIAMONDS));
     ASSERT_TRUE(queenSpades.is_trump(SPADES));
     ASSERT_TRUE(queenSpades.is_face_or_ace());
     ASSERT_FALSE(queenSpades.is_right_bower(DIAMONDS));
@@ -120,7 +121,6 @@ TEST(test_card_less) {
     ASSERT_FALSE(Card_less(jackDiamonds, kingSpades, DIAMONDS));
     ASSERT_FALSE(Card_less(sixDiamonds, sixHearts, DIAMONDS));
     ASSERT_TRUE(Card_less(sixClubs, tenSpades, SPADES));
-    ASSERT_FALSE(Card_less(kingSpades, jackHearts, DIAMONDS)); 
+    ASSERT_FALSE(Card_less(kingSpades, jackHearts, DIAMONDS));
 }
-
 TEST_MAIN()
