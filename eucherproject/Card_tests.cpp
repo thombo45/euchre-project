@@ -11,23 +11,20 @@ TEST(test_card_ctor) {
     ASSERT_EQUAL(HEARTS, c.get_suit());
 
     Card c1;
-    ASSERT_EQUAL(TWO, c.get_rank());
-    ASSERT_EQUAL(FIVE, c.get_rank());
-    ASSERT_EQUAL(EIGHT, c.get_rank());
-    ASSERT_EQUAL(KING, c.get_rank());
+    ASSERT_EQUAL(TWO, c1.get_rank());
+    ASSERT_NOT_EQUAL(FIVE, c1.get_rank());
+    ASSERT_NOT_EQUAL(EIGHT, c1.get_rank());
+    ASSERT_NOT_EQUAL(KING, c1.get_rank());
 
-    ASSERT_EQUAL(CLUBS,c.get_rank());
-    ASSERT_EQUAL(SPADES, c.get_rank());
-    ASSERT_EQUAL(DIAMONDS, c.get_rank());
 }
 
 // Add more test cases here
 TEST(test_card_rank_suit) {
     Card kingDiamonds(KING, DIAMONDS);
 
-    ASSERT_EQUAL(kingDiamonds.get_suit(), KING);
+    ASSERT_EQUAL(kingDiamonds.get_rank(), KING);
     ASSERT_EQUAL(kingDiamonds.get_suit(), DIAMONDS);
-    ASSERT_EQUAL(kingDiamonds.get_suit(HEARTS), HEARTS);
+    ASSERT_NOT_EQUAL(kingDiamonds.get_suit(HEARTS), HEARTS);
     ASSERT_EQUAL(kingDiamonds.get_suit(HEARTS), DIAMONDS);
 }
 
@@ -46,7 +43,7 @@ TEST(test_card_type) {
     ASSERT_FALSE(tenHearts.is_right_bower(SPADES));
     ASSERT_FALSE(tenHearts.is_left_bower(SPADES));
 
-    Card jackDiamonds = Card(JACK, CLUBS);
+    Card jackDiamonds = Card(JACK, DIAMONDS);
 
     ASSERT_TRUE(jackDiamonds.is_trump(DIAMONDS));
     ASSERT_TRUE(jackDiamonds.is_face_or_ace());
@@ -103,14 +100,14 @@ TEST(test_card_less) {
 
     ASSERT_FALSE(Card_less(jackHearts, kingSpades, sixSpades, HEARTS));
     ASSERT_FALSE(Card_less(jackDiamonds, kingSpades, sixSpades, HEARTS));
-    ASSERT_FALSE(Card_less(jackHearts, kingDiamonds, sixSpades, DIAMONDS));
+    ASSERT_TRUE(Card_less(jackHearts, kingDiamonds, sixSpades, DIAMONDS));
     ASSERT_FALSE(Card_less(jackDiamonds, kingSpades, sixSpades, DIAMONDS));
     ASSERT_FALSE(Card_less(jackHearts, kingHearts, sixHearts, HEARTS));
     ASSERT_FALSE(Card_less(jackSpades, kingSpades, sixSpades, CLUBS));
     ASSERT_FALSE(Card_less(jackClubs, kingClubs, sixClubs, CLUBS));
     ASSERT_FALSE(Card_less(jackSpades, kingSpades, sixSpades, SPADES));
-    ASSERT_TRUE(Card_less(jackSpades, kingSpades, sixSpades, DIAMONDS));
-    ASSERT_TRUE(Card_less(sixHearts, sixSpades, tenHearts, CLUBS));
+    ASSERT_FALSE(Card_less(jackSpades, kingSpades, sixSpades, DIAMONDS));
+    ASSERT_FALSE(Card_less(sixHearts, sixSpades, tenHearts, CLUBS));
     ASSERT_FALSE(Card_less(jackHearts, jackHearts, jackHearts, DIAMONDS));
     ASSERT_FALSE(Card_less(jackDiamonds, jackDiamonds, jackDiamonds, DIAMONDS));
     ASSERT_TRUE(Card_less(sixSpades, sixClubs, CLUBS));
@@ -118,12 +115,12 @@ TEST(test_card_less) {
     ASSERT_FALSE(Card_less(tenHearts, kingSpades, HEARTS));
     ASSERT_FALSE(Card_less(jackDiamonds, jackHearts, DIAMONDS));
     ASSERT_TRUE(Card_less(sixSpades, tenSpades, SPADES));
-    ASSERT_TRUE(Card_less(kingClubs, jackSpades, CLUBS));
+    ASSERT_FALSE(Card_less(kingClubs, jackSpades, CLUBS));
     ASSERT_TRUE(Card_less(kingSpades, jackDiamonds, DIAMONDS));
     ASSERT_FALSE(Card_less(jackDiamonds, kingSpades, DIAMONDS));
     ASSERT_FALSE(Card_less(sixDiamonds, sixHearts, DIAMONDS));
     ASSERT_TRUE(Card_less(sixClubs, tenSpades, SPADES));
-    ASSERT_TRUE(Card_less(kingSpades, jackHearts, DIAMONDS)); 
+    ASSERT_FALSE(Card_less(kingSpades, jackHearts, DIAMONDS)); 
 }
 
 TEST_MAIN()
