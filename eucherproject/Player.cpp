@@ -9,6 +9,7 @@ using std::cin;
 using std::endl;
 using std::string;
 
+
 class Simple : public Player {
     public:
     Card get_card(int i) {
@@ -165,9 +166,11 @@ public:
             std::cout << "Human player " << name << "'s hand: " << "[" << i << "] " << temp[i] << '\n';
         }
     }
-    Card get_card(int i) {
-        return hand[i];
-    }
+
+   // Card get_card(int i) override {
+   //     return hand[i];
+   // }
+
     Human(const string &inName) {
         name = inName;
     }
@@ -280,3 +283,4 @@ std::ostream & operator<<(std::ostream &os, const Player &p){
     os << p.get_name();
     return os;
 }
+
