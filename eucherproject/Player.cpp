@@ -12,7 +12,7 @@ using std::string;
 
 class Simple : public Player {
     public:
-    Card get_card(int i) {
+    Card get_card(int i) override{
         return hand[i];
     }
     Simple(const string &inName) {
@@ -158,6 +158,10 @@ private:
 
 class Human : public Player {
 public:
+    Card get_card(int i) override{
+        return hand[i];
+    }
+    
     void printHand() const {
         std::vector<Card> temp = hand;
         std::sort(temp.begin(), temp.end());
