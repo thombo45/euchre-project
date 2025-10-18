@@ -25,13 +25,7 @@ public:
         }
         
         string Will_shuffle = argv[2];
-        if(Will_shuffle == "shuffle"){
-            pack.shuffle();
-        }
-        else if (Will_shuffle == "noshuffle"){
-            
-        }
-        else{
+        if(Will_shuffle != "shuffle" && Will_shuffle != "noshuffle"){
             Errors += Errors;
         }
         points_to_win = atoi(argv[3]);
@@ -67,20 +61,129 @@ public:
     };
     bool get_was_error(){
         return was_error;
-                       };
+    }
     void play();
     
 private:
     vector <Player*> players;
+    int idx_dealer;
+    int team_1_pts; //player 0 and 2
+    int team_2_pts; //player 1 and 3
     Pack pack;
+    Suit trump;
+    Card upcard;
     int points_to_win;
+    bool will_shuffle;
     bool was_error;
     
+    void inc_dealer(){
+        ++idx_dealer;
+        if(idx_dealer < 3){
+            idx_dealer = 0;
+        }
+    }
+    void inc_player(int idx){
+        ++idx;
+        if(idx < 3){
+            idx = 0;
+        }
+    }
     
-    void shuffle();
-    void deal();
-    void make_trump();
-    void play_hand();
+    void shuffle(){
+        if (will_shuffle == true){
+            pack.shuffle();
+        }
+    };
+    void deal(){
+        cout << players[idx_dealer] -> get_name() << " deals" << endl;
+        for(int i = 0; i < 5; i++){
+            players[0] -> add_card(pack.deal_one());
+            players[1] -> add_card(pack.deal_one());
+            players[2] -> add_card(pack.deal_one());
+            players[3] -> add_card(pack.deal_one());
+        }
+        upcard = pack.deal_one();
+        cout << upcard << " turned up" << endl;
+      
+    };
+    void make_trump(){
+        int round = 1;
+        int idx_P;
+        if(idx_dealer == 3){
+            idx_P = 0;
+        }
+        else {idx_P = idx_dealer + 1;}
+        
+        for(int i = 0; i < 4; i++){
+            if(idx_P == idx_dealer){
+                if(players[idx_P] -> make_trump(upcard, true, 1, trump) == true){
+                    players[idx_dealer] -> add_and_discard(upcard);
+                    cout << players[idx_P] -> get_name() << " orders up " << trump << endl;
+                    inc_dealer();
+                    return;
+                }
+                else{
+                    cout << players[idx_P] -> get_name() << " passes" << endl;
+                }
+            }
+            else{
+                if(players[idx_P] -> make_trump(upcard, false, 1, trump) == true){
+                    players[idx_dealer] -> add_and_discard(upcard);
+                    cout << players[idx_P] -> get_name() << " orders up " << trump << endl;
+                    inc_dealer();
+                    return;
+                }
+                else{
+                    cout << players[idx_P] -> get_name() << " passes" << endl;
+                }
+            }
+            inc_player(idx_P);
+        }
+        round = 2;
+       
+        for(int i = 0; i < 4; i++){
+            if(idx_P == idx_dealer){
+                if(players[idx_P] -> make_trump(upcard, true, 2, trump) == true){
+                    inc_dealer();
+                    return;
+                }
+            }
+            else{
+                if(players[idx_P] -> make_trump(upcard, false, 2, trump) == true){
+                    inc_dealer();
+                    return;
+                }
+                else{
+                    cout << players[idx_P] -> get_name() << " passes" << endl;
+                }
+            }
+            inc_player(idx_P);
+        }
+        
+    };
+    void play_hand(){
+        int idx_P;
+        Card Max;
+        int Current_winner;
+        if(idx_dealer == 3){
+            idx_P = 0;
+        }
+        else {idx_P = idx_dealer + 1;}
+        //first trick player to left of dealer leads
+        Card lead_card;
+        lead_card = players[idx_P] -> lead_card(trump);
+        Max = lead_card;
+        Current_winner = idx_P;
+        cout << lead_card << " led by " << players[idx_P] -> get_name() << endl;
+        inc_player(idx_P);
+        for(int i = 0; i < 3; i++){
+            players[idx_P] -> play_card(lead_card, trump);
+            
+            inc_player(idx_P);
+        }
+        
+        
+    };
     
 };
 
