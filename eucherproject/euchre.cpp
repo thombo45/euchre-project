@@ -19,6 +19,11 @@ using namespace std;
 class Game {
 public:
     Game(int argc, char* argv[]){
+        for(int i = 0; i < argc; i++){
+            cout << argv[i] << " ";
+        }
+        cout << endl;
+        
         int Errors = 0;
         if(argc != 12){
             Errors += Errors;
@@ -62,20 +67,47 @@ public:
     bool get_was_error(){
         return was_error;
     }
-    void play();
+    int get_team_1_pts(){
+        return team_1_pts;
+    }
+    int get_team_2_pts(){
+        return team_2_pts;
+    }
+    
+    void play(){
+        while(get_team_1_pts() < points_to_win && get_team_2_pts() < points_to_win){
+            cout<< "shuffling" << endl;
+            shuffle(); //will only do if needed
+            cout<< "dealing now" << endl;
+            deal();
+            cout<< "making trump now" << endl;
+            make_trump();
+            cout<< "Playing now" << endl;
+            play_hand();
+        }
+        if(team_1_pts > team_2_pts){
+            cout << players[2] -> get_name() << " and " << players[0] -> get_name()
+            << " win!";
+        }
+        if(team_2_pts > team_1_pts){
+            cout << players[3] -> get_name() << " and " << players[1] -> get_name()
+            << " win!";
+        }
+    };
     
 private:
     vector <Player*> players;
     int idx_dealer;
-    int team_1_pts; //player 0 and 2
-    int team_2_pts; //player 1 and 3
+    int team_1_pts = 0; //player 0 and 2
+    int team_2_pts = 0; //player 1 and 3
+    int who_made_trump;
     Pack pack;
     Suit trump;
     Card upcard;
     int points_to_win;
     bool will_shuffle;
     bool was_error;
-    
+   
     void inc_dealer(){
         ++idx_dealer;
         if(idx_dealer < 3){
@@ -96,7 +128,7 @@ private:
     };
     void deal(){
         cout << players[idx_dealer] -> get_name() << " deals" << endl;
-        for(int i = 0; i < 5; i++){
+        for(int i = 0; i < 4; i++){
             players[0] -> add_card(pack.deal_one());
             players[1] -> add_card(pack.deal_one());
             players[2] -> add_card(pack.deal_one());
@@ -107,7 +139,6 @@ private:
       
     };
     void make_trump(){
-        int round = 1;
         int idx_P;
         if(idx_dealer == 3){
             idx_P = 0;
@@ -118,6 +149,7 @@ private:
             if(idx_P == idx_dealer){
                 if(players[idx_P] -> make_trump(upcard, true, 1, trump) == true){
                     players[idx_dealer] -> add_and_discard(upcard);
+                    who_made_trump = idx_P;
                     cout << players[idx_P] -> get_name() << " orders up " << trump << endl;
                     inc_dealer();
                     return;
@@ -129,6 +161,7 @@ private:
             else{
                 if(players[idx_P] -> make_trump(upcard, false, 1, trump) == true){
                     players[idx_dealer] -> add_and_discard(upcard);
+                    who_made_trump = idx_P;
                     cout << players[idx_P] -> get_name() << " orders up " << trump << endl;
                     inc_dealer();
                     return;
@@ -139,18 +172,20 @@ private:
             }
             inc_player(idx_P);
         }
-        round = 2;
+        
        
         for(int i = 0; i < 4; i++){
             if(idx_P == idx_dealer){
                 if(players[idx_P] -> make_trump(upcard, true, 2, trump) == true){
                     inc_dealer();
+                    who_made_trump = idx_P;
                     return;
                 }
             }
             else{
                 if(players[idx_P] -> make_trump(upcard, false, 2, trump) == true){
                     inc_dealer();
+                    who_made_trump = idx_P;
                     return;
                 }
                 else{
@@ -165,6 +200,8 @@ private:
         int idx_P;
         Card Max;
         int Current_winner;
+        int hands_won_by_team_1 = 0;
+        int hands_won_by_team_2 = 0;
         if(idx_dealer == 3){
             idx_P = 0;
         }
@@ -176,13 +213,99 @@ private:
         Current_winner = idx_P;
         cout << lead_card << " led by " << players[idx_P] -> get_name() << endl;
         inc_player(idx_P);
-        for(int i = 0; i < 3; i++){
-            players[idx_P] -> play_card(lead_card, trump);
-            
+        //next 3 players play
+        for(int i = 0; i < 2; i++){
+            Card played;
+            played = players[idx_P] -> play_card(lead_card, trump);
+            cout << played << " played by " << players[idx_P] -> get_name() << endl;
+            if(Card_less(Max, played, lead_card, trump)){
+                Max = played;
+                Current_winner = idx_P;
+            }
             inc_player(idx_P);
         }
         
+        //keep track of who won first trick
+        if(Current_winner == 0 || Current_winner == 2){
+            hands_won_by_team_1++;
+        }
+        if(Current_winner == 1 || Current_winner == 3){
+            hands_won_by_team_2++;
+        }
         
+        //next 4 tricks leader of previous hand leads
+        for(int i = 0; i < 3; i++){
+            //last winner leads
+            lead_card = players[Current_winner] -> lead_card(trump);
+            Max = lead_card;
+            idx_P = Current_winner;
+            cout << lead_card << " led by " << players[idx_P] -> get_name() << endl;
+            inc_player(idx_P);
+            //next three players play
+            for(int ix = 0; ix < 2; ix++){
+                Card played;
+                played = players[idx_P] -> play_card(lead_card, trump);
+                cout << played << " played by " << players[idx_P] -> get_name() << endl;
+                if(Card_less(Max, played, lead_card, trump)){
+                    Max = played;
+                    Current_winner = idx_P;
+                }
+                inc_player(idx_P);
+            }
+            if(Current_winner == 0 || Current_winner == 2){
+                hands_won_by_team_1++;
+            }
+            if(Current_winner == 1 || Current_winner == 3){
+                hands_won_by_team_2++;
+            }
+        }
+        
+        //award points for the hand
+        bool team_1_made_trump;
+        if(who_made_trump == 0 || who_made_trump == 2){
+            team_1_made_trump = true;
+        }
+        else{team_1_made_trump = false;}
+        
+        
+        if(hands_won_by_team_1 > hands_won_by_team_2){
+            cout << players[2] -> get_name() << " and "
+            << players[0] -> get_name() << " win the hand" << endl;
+        }
+        if(hands_won_by_team_2 > hands_won_by_team_1){
+            cout << players[3] -> get_name() << " and "
+            << players[1] -> get_name() << " win the hand" << endl;
+        }
+        
+        if(hands_won_by_team_1 == 5 && team_1_made_trump == true){
+            cout << "march!" << endl;
+            team_1_pts = team_1_pts + 2;
+        }
+        else if (hands_won_by_team_2 == 5 && team_1_made_trump == false){
+            cout << "march!" << endl;
+            team_2_pts = team_2_pts + 2;
+        }
+        else if (hands_won_by_team_1 > 2 && team_1_made_trump == false){
+            cout << "euchred!" << endl;
+            team_1_pts = team_1_pts + 2;
+        }
+        else if (hands_won_by_team_2 > 2 && team_1_made_trump == true){
+            cout << "euchred!" << endl;
+            team_2_pts = team_2_pts + 2;
+        }
+        else if (hands_won_by_team_1 > hands_won_by_team_2){
+            team_1_pts++;
+        }
+        else{
+            team_2_pts++;
+        }
+        
+        inc_dealer();
+        
+        cout << players[2] -> get_name() << " and "
+        << players[0] -> get_name() << " have " << team_1_pts << " points" << endl;
+        cout << players[3] -> get_name() << " and "
+        << players[1] -> get_name() << " have " << team_2_pts << " points" << endl << endl;
     };
     
 };
@@ -194,4 +317,6 @@ int main(int argc, char* argv[]) {
     if(game.get_was_error() == true){ //may be a better way of doing this
         return 1;
     }
+    game.play();
+    
 }
