@@ -278,7 +278,7 @@ Player * Player_factory(const std::string &name, const std::string &strategy){
     if (strategy == "Human") {
         return new Human(name);
     }
-    assert(false);
+   // assert(false);
     return nullptr;
 }
 

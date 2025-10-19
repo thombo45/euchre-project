@@ -19,7 +19,8 @@ using namespace std;
 class Game {
 public:
     Game(int argc, char* argv[]){
-        for(int i = 0; i < argc; i++){
+        cout << "we have " << argc << " many arguments" << endl;
+        for(int i = 0; i < 12; i++){
             cout << argv[i] << " ";
         }
         cout << endl;
@@ -53,13 +54,17 @@ public:
             
         string ex_name = argv[0];
         string pack_name = argv[1];
+        cout << endl << "pack name is: " << pack_name << endl;
         ifstream infile(pack_name);
         if (!infile.is_open()) {
-            cout << "Error opening  " << pack_name << endl;
+            cout << "Error opening " << pack_name << endl;
             was_error = true;
             return;
         }
         Pack pack(infile);
+        if(pack.empty()){
+            cout << "there is nothing is pack" << endl;
+        }
 
         
         
@@ -75,10 +80,14 @@ public:
     }
     
     void play(){
-        while(get_team_1_pts() < points_to_win && get_team_2_pts() < points_to_win){
+        for (int i = 0;
+             get_team_1_pts() < points_to_win && get_team_2_pts() < points_to_win;
+             i++){
+            cout << "Hand " << i << endl;
             cout<< "shuffling" << endl;
             shuffle(); //will only do if needed
             cout<< "dealing now" << endl;
+            cout << idx_dealer << " = idx dealer" << endl;
             deal();
             cout<< "making trump now" << endl;
             make_trump();
@@ -97,7 +106,7 @@ public:
     
 private:
     vector <Player*> players;
-    int idx_dealer;
+    int idx_dealer = 0;
     int team_1_pts = 0; //player 0 and 2
     int team_2_pts = 0; //player 1 and 3
     int who_made_trump;
@@ -114,9 +123,9 @@ private:
             idx_dealer = 0;
         }
     }
-    void inc_player(int idx){
-        ++idx;
-        if(idx < 3){
+    void inc_player(int &idx){
+        idx = idx + 1;
+        if(idx > 3){
             idx = 0;
         }
     }
