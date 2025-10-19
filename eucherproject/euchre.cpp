@@ -19,7 +19,6 @@ using namespace std;
 class Game {
 public:
     Game(int argc, char* argv[]){
-        cout << "we have " << argc << " many arguments" << endl;
         for(int i = 0; i < 12; i++){
             cout << argv[i] << " ";
         }
@@ -54,7 +53,6 @@ public:
             
         string ex_name = argv[0];
         string pack_name = argv[1];
-        cout << endl << "pack name is: " << pack_name << endl;
         ifstream infile(pack_name);
         if (!infile.is_open()) {
             cout << "Error opening " << pack_name << endl;
@@ -62,9 +60,6 @@ public:
             return;
         }
         Pack pack(infile);
-        if(pack.empty()){
-            cout << "there is nothing is pack" << endl;
-        }
 
         
         
@@ -83,15 +78,11 @@ public:
         for (int i = 0;
              get_team_1_pts() < points_to_win && get_team_2_pts() < points_to_win;
              i++){
-            cout << "Hand " << i << endl;
-            cout<< "shuffling" << endl;
+            cout << "Hand " << i << endl << endl;
             shuffle(); //will only do if needed
-            cout<< "dealing now" << endl;
-            cout << idx_dealer << " = idx dealer" << endl;
+            cout << endl << idx_dealer << " = idx dealer" << endl;
             deal();
-            cout<< "making trump now" << endl;
             make_trump();
-            cout<< "Playing now" << endl;
             play_hand();
         }
         if(team_1_pts > team_2_pts){
@@ -136,16 +127,17 @@ private:
         }
     };
     void deal(){
-        cout << players[idx_dealer] -> get_name() << " deals" << endl;
-        for(int i = 0; i < 4; i++){
+        
+        
+        for(int i = 0; i < 5; i++){
             players[0] -> add_card(pack.deal_one());
             players[1] -> add_card(pack.deal_one());
             players[2] -> add_card(pack.deal_one());
             players[3] -> add_card(pack.deal_one());
         }
+        cout << players[idx_dealer] -> get_name() << " deals" << endl;
         upcard = pack.deal_one();
         cout << upcard << " turned up" << endl;
-      
     };
     void make_trump(){
         int idx_P;
@@ -203,7 +195,7 @@ private:
             }
             inc_player(idx_P);
         }
-        
+        cout << endl;
     };
     void play_hand(){
         int idx_P;
