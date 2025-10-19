@@ -80,18 +80,18 @@ public:
              i++){
             cout << "Hand " << i << endl << endl;
             shuffle(); //will only do if needed
-            cout << endl << idx_dealer << " = idx dealer" << endl;
+            //cout << endl << idx_dealer << " = idx dealer" << endl;
             deal();
             make_trump();
             play_hand();
         }
         if(team_1_pts > team_2_pts){
             cout << players[2] -> get_name() << " and " << players[0] -> get_name()
-            << " win!";
+            << " win!" << endl;
         }
         if(team_2_pts > team_1_pts){
             cout << players[3] -> get_name() << " and " << players[1] -> get_name()
-            << " win!";
+            << " win!" << endl;
         }
     };
     
@@ -114,10 +114,22 @@ private:
             idx_dealer = 0;
         }
     }
+    void dec_dealer(){
+        idx_dealer = idx_dealer -1;
+        if(idx_dealer < 0){
+            idx_dealer = 3;
+        }
+    }
     void inc_player(int &idx){
         idx = idx + 1;
         if(idx > 3){
             idx = 0;
+        }
+    }
+    void dec_player(int &idx){
+        idx = idx - 1;
+        if(idx < 0){
+            idx = 3;
         }
     }
     
@@ -127,14 +139,52 @@ private:
         }
     };
     void deal(){
+        int first = idx_dealer;
+        inc_player(first);
         
+        int second = first;
+        inc_player(second);
         
+        int third = second;
+        inc_player(third);
+        
+        int fourth = third;
+        inc_player(fourth);
+       
+        players[first] -> add_card(pack.deal_one());
+        players[first] -> add_card(pack.deal_one());
+        players[first] -> add_card(pack.deal_one());
+        
+        players[second] -> add_card(pack.deal_one());
+        players[second] -> add_card(pack.deal_one());
+        
+        players[third] -> add_card(pack.deal_one());
+        players[third] -> add_card(pack.deal_one());
+        players[third] -> add_card(pack.deal_one());
+        
+        players[fourth] -> add_card(pack.deal_one());
+        players[fourth] -> add_card(pack.deal_one());
+        
+        players[first] -> add_card(pack.deal_one());
+        players[first] -> add_card(pack.deal_one());
+        
+        players[second] -> add_card(pack.deal_one());
+        players[second] -> add_card(pack.deal_one());
+        players[second] -> add_card(pack.deal_one());
+        
+        players[third] -> add_card(pack.deal_one());
+        players[third] -> add_card(pack.deal_one());
+        
+        players[fourth] -> add_card(pack.deal_one());
+        players[fourth] -> add_card(pack.deal_one());
+        players[fourth] -> add_card(pack.deal_one());
+        /*
         for(int i = 0; i < 5; i++){
-            players[0] -> add_card(pack.deal_one());
-            players[1] -> add_card(pack.deal_one());
-            players[2] -> add_card(pack.deal_one());
-            players[3] -> add_card(pack.deal_one());
-        }
+            players[first] -> add_card(pack.deal_one());
+            players[second] -> add_card(pack.deal_one());
+            players[third] -> add_card(pack.deal_one());
+            players[fourth] -> add_card(pack.deal_one());
+        }  */
         cout << players[idx_dealer] -> get_name() << " deals" << endl;
         upcard = pack.deal_one();
         cout << upcard << " turned up" << endl;
@@ -151,7 +201,7 @@ private:
                 if(players[idx_P] -> make_trump(upcard, true, 1, trump) == true){
                     players[idx_dealer] -> add_and_discard(upcard);
                     who_made_trump = idx_P;
-                    cout << players[idx_P] -> get_name() << " orders up " << trump << endl;
+                    cout << players[idx_P] -> get_name() << " orders up " << trump << endl << endl;
                     inc_dealer();
                     return;
                 }
@@ -163,8 +213,33 @@ private:
                 if(players[idx_P] -> make_trump(upcard, false, 1, trump) == true){
                     players[idx_dealer] -> add_and_discard(upcard);
                     who_made_trump = idx_P;
-                    cout << players[idx_P] -> get_name() << " orders up " << trump << endl;
+                    cout << players[idx_P] -> get_name() << " orders up " << trump << endl << endl;
                     inc_dealer();
+                    return;
+                }
+                else{
+                    cout << players[idx_P] -> get_name() << " passes" << endl;
+                }
+            }
+            inc_player(idx_P);
+            //cout << endl;
+        }
+        
+       
+        for(int i = 0; i < 4; i++){
+            if(idx_P == idx_dealer){
+                if(players[idx_P] -> make_trump(upcard, true, 2, trump) == true){
+                    cout << players[idx_P] -> get_name() << " orders up " << trump << endl << endl;
+                    inc_dealer();
+                    who_made_trump = idx_P;
+                    return;
+                }
+            }
+            else{
+                if(players[idx_P] -> make_trump(upcard, false, 2, trump) == true){
+                    cout << players[idx_P] -> get_name() << " orders up " << trump << endl << endl;
+                    inc_dealer();
+                    who_made_trump = idx_P;
                     return;
                 }
                 else{
@@ -174,28 +249,6 @@ private:
             inc_player(idx_P);
         }
         
-       
-        for(int i = 0; i < 4; i++){
-            if(idx_P == idx_dealer){
-                if(players[idx_P] -> make_trump(upcard, true, 2, trump) == true){
-                    inc_dealer();
-                    who_made_trump = idx_P;
-                    return;
-                }
-            }
-            else{
-                if(players[idx_P] -> make_trump(upcard, false, 2, trump) == true){
-                    inc_dealer();
-                    who_made_trump = idx_P;
-                    return;
-                }
-                else{
-                    cout << players[idx_P] -> get_name() << " passes" << endl;
-                }
-            }
-            inc_player(idx_P);
-        }
-        cout << endl;
     };
     void play_hand(){
         int idx_P;
@@ -215,7 +268,7 @@ private:
         cout << lead_card << " led by " << players[idx_P] -> get_name() << endl;
         inc_player(idx_P);
         //next 3 players play
-        for(int i = 0; i < 2; i++){
+        for(int i = 0; i < 3; i++){
             Card played;
             played = players[idx_P] -> play_card(lead_card, trump);
             cout << played << " played by " << players[idx_P] -> get_name() << endl;
@@ -225,7 +278,7 @@ private:
             }
             inc_player(idx_P);
         }
-        
+        cout << players[Current_winner] -> get_name() << " takes the trick" << endl << endl;
         //keep track of who won first trick
         if(Current_winner == 0 || Current_winner == 2){
             hands_won_by_team_1++;
@@ -235,7 +288,7 @@ private:
         }
         
         //next 4 tricks leader of previous hand leads
-        for(int i = 0; i < 3; i++){
+        for(int i = 0; i < 4; i++){
             //last winner leads
             lead_card = players[Current_winner] -> lead_card(trump);
             Max = lead_card;
@@ -243,7 +296,7 @@ private:
             cout << lead_card << " led by " << players[idx_P] -> get_name() << endl;
             inc_player(idx_P);
             //next three players play
-            for(int ix = 0; ix < 2; ix++){
+            for(int ix = 0; ix < 3; ix++){
                 Card played;
                 played = players[idx_P] -> play_card(lead_card, trump);
                 cout << played << " played by " << players[idx_P] -> get_name() << endl;
@@ -251,6 +304,7 @@ private:
                     Max = played;
                     Current_winner = idx_P;
                 }
+                cout << players[idx_P] -> get_name() << " takes the trick" << endl << endl;
                 inc_player(idx_P);
             }
             if(Current_winner == 0 || Current_winner == 2){
