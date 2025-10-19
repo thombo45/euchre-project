@@ -19,6 +19,7 @@ using namespace std;
 class Game {
 public:
     Game(int argc, char* argv[]){
+     //   cout << "it stats here" << endl << endl;
         for(int i = 0; i < 12; i++){
             cout << argv[i] << " ";
         }
@@ -86,11 +87,11 @@ public:
             play_hand();
         }
         if(team_1_pts > team_2_pts){
-            cout << players[2] -> get_name() << " and " << players[0] -> get_name()
+            cout << players[0] -> get_name() << " and " << players[2] -> get_name()
             << " win!" << endl;
         }
         if(team_2_pts > team_1_pts){
-            cout << players[3] -> get_name() << " and " << players[1] -> get_name()
+            cout << players[1] -> get_name() << " and " << players[3] -> get_name()
             << " win!" << endl;
         }
     };
@@ -304,9 +305,9 @@ private:
                     Max = played;
                     Current_winner = idx_P;
                 }
-                cout << players[idx_P] -> get_name() << " takes the trick" << endl << endl;
                 inc_player(idx_P);
             }
+            cout << players[Current_winner] -> get_name() << " takes the trick" << endl << endl;
             if(Current_winner == 0 || Current_winner == 2){
                 hands_won_by_team_1++;
             }
@@ -324,12 +325,12 @@ private:
         
         
         if(hands_won_by_team_1 > hands_won_by_team_2){
-            cout << players[2] -> get_name() << " and "
-            << players[0] -> get_name() << " win the hand" << endl;
+            cout << players[0] -> get_name() << " and "
+            << players[2] -> get_name() << " win the hand" << endl;
         }
         if(hands_won_by_team_2 > hands_won_by_team_1){
-            cout << players[3] -> get_name() << " and "
-            << players[1] -> get_name() << " win the hand" << endl;
+            cout << players[1] -> get_name() << " and "
+            << players[3] -> get_name() << " win the hand" << endl;
         }
         
         if(hands_won_by_team_1 == 5 && team_1_made_trump == true){
@@ -357,10 +358,10 @@ private:
         
         inc_dealer();
         
-        cout << players[2] -> get_name() << " and "
-        << players[0] -> get_name() << " have " << team_1_pts << " points" << endl;
-        cout << players[3] -> get_name() << " and "
-        << players[1] -> get_name() << " have " << team_2_pts << " points" << endl << endl;
+        cout << players[0] -> get_name() << " and "
+        << players[2] -> get_name() << " have " << team_1_pts << " points" << endl;
+        cout << players[1] -> get_name() << " and "
+        << players[3] -> get_name() << " have " << team_2_pts << " points" << endl << endl;
     };
     
 };
