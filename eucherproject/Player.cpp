@@ -111,10 +111,15 @@ class Simple : public Player {
         int comparisonLow = 0; 
         int indexHigh = 0;
         int indexLow = 0;
+         Suit suit_of_led_card = led_card.get_suit();
+         if(led_card.is_left_bower(trump)){
+             suit_of_led_card = trump;
+         }
+      
 
         for (int i = 0, size = hand.size(); i != size; ++i) {
             if (comparisonLow == 0){
-                if (hand[i].get_suit() != led_card.get_suit()){
+                if (hand[i].get_suit() != suit_of_led_card){
                     low = hand[i];
                     comparisonLow = 1;
                     indexLow = i;
@@ -122,8 +127,11 @@ class Simple : public Player {
                 }
             }
             if (comparisonHigh == 0){
-                if (hand[i].get_suit() == led_card.get_suit()
-                    && !hand[i].is_left_bower(trump)){
+                if(led_card.get_suit() == trump && hand[i].is_left_bower(trump)){
+                    high = hand[i];
+                    indexHigh = i;
+                }
+                if (hand[i].get_suit() == suit_of_led_card && !hand[i].is_left_bower(trump)){
                     high = hand[i];
                     comparisonHigh = 1;
                     indexHigh = i;
@@ -137,10 +145,15 @@ class Simple : public Player {
                 }
             }
             if (comparisonHigh == 1) {
-                if (hand[i] > high 
-                    && hand[i].get_suit() == led_card.get_suit()) {
+                if(led_card.get_suit() == trump && hand[i].is_left_bower(trump)){
                     high = hand[i];
                     indexHigh = i;
+                }
+                if (hand[i] > high && hand[i].get_suit() == suit_of_led_card) {
+                    if(!hand[i].is_left_bower(trump)){
+                        high = hand[i];
+                        indexHigh = i;
+                    }
                 }
             }
         }

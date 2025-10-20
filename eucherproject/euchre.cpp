@@ -5,7 +5,7 @@
 //  Created by Thomas Boyle on 10/17/25.
 //
 
-#include "euchre.hpp"
+
 #include "Player.hpp"
 #include "Pack.hpp"
 #include <iostream>
@@ -31,6 +31,12 @@ public:
         }
         
         string Will_shuffle = argv[2];
+        if(Will_shuffle == "shuffle"){
+            will_shuffle = true;
+        }
+        if(Will_shuffle == "noshuffle"){
+            will_shuffle = false;
+        }
         if(Will_shuffle != "shuffle" && Will_shuffle != "noshuffle"){
             Errors += Errors;
         }
@@ -80,11 +86,13 @@ public:
              get_team_1_pts() < points_to_win && get_team_2_pts() < points_to_win;
              i++){
             cout << "Hand " << i << endl << endl;
+            pack.reset();
             shuffle(); //will only do if needed
             //cout << endl << idx_dealer << " = idx dealer" << endl;
             deal();
             make_trump();
             play_hand();
+            inc_player(idx_dealer);
         }
         if(team_1_pts > team_2_pts){
             cout << players[0] -> get_name() << " and " << players[2] -> get_name()
@@ -110,7 +118,7 @@ private:
     bool was_error;
    
     void inc_dealer(){
-        ++idx_dealer;
+        idx_dealer = idx_dealer + 1;
         if(idx_dealer < 3){
             idx_dealer = 0;
         }
@@ -179,13 +187,7 @@ private:
         players[fourth] -> add_card(pack.deal_one());
         players[fourth] -> add_card(pack.deal_one());
         players[fourth] -> add_card(pack.deal_one());
-        /*
-        for(int i = 0; i < 5; i++){
-            players[first] -> add_card(pack.deal_one());
-            players[second] -> add_card(pack.deal_one());
-            players[third] -> add_card(pack.deal_one());
-            players[fourth] -> add_card(pack.deal_one());
-        }  */
+     
         cout << players[idx_dealer] -> get_name() << " deals" << endl;
         upcard = pack.deal_one();
         cout << upcard << " turned up" << endl;
@@ -203,7 +205,7 @@ private:
                     players[idx_dealer] -> add_and_discard(upcard);
                     who_made_trump = idx_P;
                     cout << players[idx_P] -> get_name() << " orders up " << trump << endl << endl;
-                    inc_dealer();
+                    //inc_player(idx_dealer);
                     return;
                 }
                 else{
@@ -215,7 +217,7 @@ private:
                     players[idx_dealer] -> add_and_discard(upcard);
                     who_made_trump = idx_P;
                     cout << players[idx_P] -> get_name() << " orders up " << trump << endl << endl;
-                    inc_dealer();
+                    //inc_player(idx_dealer);
                     return;
                 }
                 else{
@@ -231,7 +233,7 @@ private:
             if(idx_P == idx_dealer){
                 if(players[idx_P] -> make_trump(upcard, true, 2, trump) == true){
                     cout << players[idx_P] -> get_name() << " orders up " << trump << endl << endl;
-                    inc_dealer();
+                    //inc_player(idx_dealer);
                     who_made_trump = idx_P;
                     return;
                 }
@@ -239,7 +241,7 @@ private:
             else{
                 if(players[idx_P] -> make_trump(upcard, false, 2, trump) == true){
                     cout << players[idx_P] -> get_name() << " orders up " << trump << endl << endl;
-                    inc_dealer();
+                    //inc_player(idx_dealer);
                     who_made_trump = idx_P;
                     return;
                 }
@@ -249,6 +251,10 @@ private:
             }
             inc_player(idx_P);
         }
+        
+        
+        
+        
         
     };
     void play_hand(){
@@ -356,7 +362,7 @@ private:
             team_2_pts++;
         }
         
-        inc_dealer();
+        //inc_player(idx_dealer);
         
         cout << players[0] -> get_name() << " and "
         << players[2] -> get_name() << " have " << team_1_pts << " points" << endl;

@@ -233,6 +233,9 @@ bool operator<(const Card &lhs, const Card &rhs){
     if(lhs.get_rank() < rhs.get_rank()){
         return true;
     }
+    else if(lhs.get_rank() == rhs.get_rank() && lhs.get_suit() < rhs.get_suit()){
+        return true;
+    }
     else return false;
 }
 
@@ -251,6 +254,9 @@ bool operator<=(const Card &lhs, const Card &rhs){
 //  Does not consider trump.
 bool operator>(const Card &lhs, const Card &rhs){
     if(lhs.get_rank() > rhs.get_rank()){
+        return true;
+    }
+    else if(lhs.get_rank() == rhs.get_rank() && lhs.get_suit() > rhs.get_suit()){
         return true;
     }
     else return false;
