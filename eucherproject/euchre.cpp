@@ -85,7 +85,7 @@ public:
         for (int i = 0;
              get_team_1_pts() < points_to_win && get_team_2_pts() < points_to_win;
              i++){
-            cout << "Hand " << i << endl << endl;
+            cout << "Hand " << i << endl;
             pack.reset();
             shuffle(); //will only do if needed
             //cout << endl << idx_dealer << " = idx dealer" << endl;
@@ -368,6 +368,7 @@ private:
         << players[2] -> get_name() << " have " << team_1_pts << " points" << endl;
         cout << players[1] -> get_name() << " and "
         << players[3] -> get_name() << " have " << team_2_pts << " points" << endl << endl;
+        
     };
     
 };

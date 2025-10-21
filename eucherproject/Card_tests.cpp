@@ -100,7 +100,7 @@ TEST(test_card_less) {
     Card jackDiamonds = Card(KING, DIAMONDS);
 
     ASSERT_FALSE(Card_less(jackHearts, kingSpades, sixSpades, HEARTS));
-    ASSERT_FALSE(Card_less(jackDiamonds, kingSpades, sixSpades, HEARTS));
+    ASSERT_TRUE(Card_less(jackDiamonds, kingSpades, sixSpades, HEARTS));
     ASSERT_TRUE(Card_less(jackHearts, kingDiamonds, sixSpades, DIAMONDS));
     ASSERT_FALSE(Card_less(jackDiamonds, kingSpades, sixSpades, DIAMONDS));
     ASSERT_FALSE(Card_less(jackHearts, kingHearts, sixHearts, HEARTS));
@@ -121,6 +121,6 @@ TEST(test_card_less) {
     ASSERT_FALSE(Card_less(jackDiamonds, kingSpades, DIAMONDS));
     ASSERT_FALSE(Card_less(sixDiamonds, sixHearts, DIAMONDS));
     ASSERT_TRUE(Card_less(sixClubs, tenSpades, SPADES));
-    ASSERT_FALSE(Card_less(kingSpades, jackHearts, DIAMONDS));
+    ASSERT_TRUE(Card_less(kingSpades, jackHearts, DIAMONDS));
 }
 TEST_MAIN()
