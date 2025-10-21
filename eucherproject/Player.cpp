@@ -111,92 +111,118 @@ class Simple : public Player {
         return high;
          
     }
-     Card play_card(const Card &led_card,
-                    Suit trump) override {
+    Card play_card(const Card &led_card, Suit trump) override {
+        Suit suit_of_led_card = determine_led_suit(led_card, trump);
+
+        // Step 1: Try to play a right bower
+        int right_index = find_right_bower(trump);
+        if (right_index != -1 && suit_of_led_card == trump) {
+            Card right_bower = hand[right_index];
+            hand.erase(hand.begin() + right_index);
+            return right_bower;
+        }
+
+        // Step 2: Try to play a left bower
+        int left_index = find_left_bower(trump);
+        if (left_index != -1 && suit_of_led_card == trump) {
+            Card left_bower = hand[left_index];
+            hand.erase(hand.begin() + left_index);
+            return left_bower;
+        }
+
+        // Step 3: Normal follow/discard logic
+        int chosen_index = choose_card_index(led_card, trump, suit_of_led_card);
+        Card chosen = hand[chosen_index];
+        hand.erase(hand.begin() + chosen_index);
+        return chosen;
+    }
+
+    Suit determine_led_suit(const Card &led_card, Suit trump) {
+        if (led_card.is_left_bower(trump)) {
+            return trump;
+        }
+        return led_card.get_suit();
+    }
+
+    int find_right_bower(Suit trump) {
+        for (int i = 0; i < hand.size(); ++i) {
+            if (hand[i].is_right_bower(trump)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    int find_left_bower(Suit trump) {
+        for (int i = 0; i < hand.size(); ++i) {
+            if (hand[i].is_left_bower(trump)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    int choose_card_index(const Card &led_card, Suit trump, Suit suit_of_led_card) {
         Card high, low;
         int comparisonHigh = 0;
         int comparisonLow = 0; 
         int indexHigh = 0;
         int indexLow = 0;
-         bool is_L_C_L_B = led_card.is_left_bower(trump);
-         Suit suit_of_led_card = led_card.get_suit();
-         if(is_L_C_L_B == true){
-             suit_of_led_card = trump;
-         }
-
-         bool have_left_bower = false;
-         if(suit_of_led_card == trump){
-             for(int i = 0; i < hand.size(); i++){
-                 if(hand[i].is_right_bower(trump)){
-                    // have_right_bower = true;
-                     high = hand[i];
-                     indexHigh = i;
-                     hand.erase(hand.begin() + indexHigh);
-                     return high;
-                     
-                 }
-                 if(hand[i].is_left_bower(trump)){
-                     high = hand[i];
-                     indexHigh = i;
-                     have_left_bower = true;
-                 }
-             }
-         }
-         if(have_left_bower == true){
-             hand.erase(hand.begin() + indexHigh);
-             return high;
-         }
 
         for (int i = 0, size = hand.size(); i != size; ++i) {
-            if (comparisonLow == 0){
-                if (hand[i].get_suit() != suit_of_led_card){
+            // Pick first off-suit card as potential low
+            if (comparisonLow == 0) {
+                if (hand[i].get_suit() != suit_of_led_card) {
                     low = hand[i];
                     comparisonLow = 1;
                     indexLow = i;
                     continue;
                 }
             }
-            if (comparisonHigh == 0){
-                if(suit_of_led_card == trump && hand[i].is_left_bower(trump)){
+
+            // Pick first matching-suit card as potential high
+            if (comparisonHigh == 0) {
+                if (suit_of_led_card == trump && hand[i].is_left_bower(trump)) {
                     comparisonHigh = 1;
                     high = hand[i];
                     indexHigh = i;
-                }
-                if (hand[i].get_suit() == suit_of_led_card &&
-                    !hand[i].is_left_bower(trump)){
+                } else if (hand[i].get_suit() == suit_of_led_card &&
+                        !hand[i].is_left_bower(trump)) {
                     high = hand[i];
                     comparisonHigh = 1;
                     indexHigh = i;
                     continue;
                 }
             }
+
+            // Update lowest off-suit card
             if (comparisonLow == 1) {
-                if (Card_less(hand[i], low, led_card, trump)){
+                if (Card_less(hand[i], low, led_card, trump)) {
                     low = hand[i];
                     indexLow = i;
                 }
             }
+
+            // Update highest matching suit card
             if (comparisonHigh == 1) {
-                if(led_card.get_suit() == trump && hand[i].is_left_bower(trump)){
+                if (led_card.get_suit() == trump && hand[i].is_left_bower(trump)) {
                     high = hand[i];
                     indexHigh = i;
-                }
-                if (hand[i] > high && hand[i].get_suit() == suit_of_led_card) {
-                    if(!hand[i].is_left_bower(trump)){
+                } else if (hand[i] > high && hand[i].get_suit() == suit_of_led_card) {
+                    if (!hand[i].is_left_bower(trump)) {
                         high = hand[i];
                         indexHigh = i;
                     }
                 }
             }
         }
-        if (comparisonHigh == 1){
-            hand.erase(hand.begin() + indexHigh);
-            return high;
+
+        if (comparisonHigh == 1) {
+            return indexHigh;
         }
-        hand.erase(hand.begin() + indexLow);
-        return low;
-          
+        return indexLow;
     }
+    
 private:
     string name;
     std::vector<Card> hand;
