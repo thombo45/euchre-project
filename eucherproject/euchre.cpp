@@ -83,7 +83,8 @@ public:
     
     void play(){
         for (int i = 0;
-             get_team_1_pts() < points_to_win && get_team_2_pts() < points_to_win;
+             get_team_1_pts() < points_to_win
+             && get_team_2_pts() < points_to_win;
              i++){
             cout << "Hand " << i << endl;
             pack.reset();
@@ -95,13 +96,17 @@ public:
             inc_player(idx_dealer);
         }
         if(team_1_pts > team_2_pts){
-            cout << players[0] -> get_name() << " and " << players[2] -> get_name()
-            << " win!" << endl;
+            cout << players[0] -> get_name() << " and "
+            << players[2] -> get_name() << " win!" << endl;
         }
         if(team_2_pts > team_1_pts){
-            cout << players[1] -> get_name() << " and " << players[3] -> get_name()
-            << " win!" << endl;
+            cout << players[1] -> get_name() << " and "
+            << players[3] -> get_name() << " win!" << endl;
         }
+        delete players[0];
+        delete players[1];
+        delete players[2];
+        delete players[3];
     };
     
 private:
@@ -285,7 +290,8 @@ private:
             }
             inc_player(idx_P);
         }
-        cout << players[Current_winner] -> get_name() << " takes the trick" << endl << endl;
+        cout << players[Current_winner] -> get_name()
+        << " takes the trick" << endl << endl;
         //keep track of who won first trick
         if(Current_winner == 0 || Current_winner == 2){
             hands_won_by_team_1++;
@@ -300,20 +306,23 @@ private:
             lead_card = players[Current_winner] -> lead_card(trump);
             Max = lead_card;
             idx_P = Current_winner;
-            cout << lead_card << " led by " << players[idx_P] -> get_name() << endl;
+            cout << lead_card << " led by "
+            << players[idx_P] -> get_name() << endl;
             inc_player(idx_P);
             //next three players play
             for(int ix = 0; ix < 3; ix++){
                 Card played;
                 played = players[idx_P] -> play_card(lead_card, trump);
-                cout << played << " played by " << players[idx_P] -> get_name() << endl;
+                cout << played << " played by "
+                << players[idx_P] -> get_name() << endl;
                 if(Card_less(Max, played, lead_card, trump)){
                     Max = played;
                     Current_winner = idx_P;
                 }
                 inc_player(idx_P);
             }
-            cout << players[Current_winner] -> get_name() << " takes the trick" << endl << endl;
+            cout << players[Current_winner] -> get_name()
+            << " takes the trick" << endl << endl;
             if(Current_winner == 0 || Current_winner == 2){
                 hands_won_by_team_1++;
             }
@@ -339,19 +348,23 @@ private:
             << players[3] -> get_name() << " win the hand" << endl;
         }
         
-        if(hands_won_by_team_1 == 5 && team_1_made_trump == true){
+        if(hands_won_by_team_1 == 5
+           && team_1_made_trump == true){
             cout << "march!" << endl;
             team_1_pts = team_1_pts + 2;
         }
-        else if (hands_won_by_team_2 == 5 && team_1_made_trump == false){
+        else if (hands_won_by_team_2 == 5
+                 && team_1_made_trump == false){
             cout << "march!" << endl;
             team_2_pts = team_2_pts + 2;
         }
-        else if (hands_won_by_team_1 > 2 && team_1_made_trump == false){
+        else if (hands_won_by_team_1 > 2
+                 && team_1_made_trump == false){
             cout << "euchred!" << endl;
             team_1_pts = team_1_pts + 2;
         }
-        else if (hands_won_by_team_2 > 2 && team_1_made_trump == true){
+        else if (hands_won_by_team_2 > 2
+                 && team_1_made_trump == true){
             cout << "euchred!" << endl;
             team_2_pts = team_2_pts + 2;
         }
@@ -365,9 +378,11 @@ private:
         //inc_player(idx_dealer);
         
         cout << players[0] -> get_name() << " and "
-        << players[2] -> get_name() << " have " << team_1_pts << " points" << endl;
+        << players[2] -> get_name() << " have "
+        << team_1_pts << " points" << endl;
         cout << players[1] -> get_name() << " and "
-        << players[3] -> get_name() << " have " << team_2_pts << " points" << endl << endl;
+        << players[3] -> get_name() << " have "
+        << team_2_pts << " points" << endl << endl;
         
     };
     
@@ -381,5 +396,6 @@ int main(int argc, char* argv[]) {
         return 1;
     }
     game.play();
+    return 0;
     
 }

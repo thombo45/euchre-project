@@ -221,7 +221,8 @@ public:
         std::sort(temp.begin(), temp.end());
 
         for (int i = 0, size = temp.size(); i != size; ++i) {
-            std::cout << "Human player " << name << "'s hand: " << "[" << i << "] " << temp[i] << '\n';
+            std::cout << "Human player " << name << "'s hand: "
+            << "[" << i << "] " << temp[i] << '\n';
         }
     }
 
@@ -245,7 +246,8 @@ public:
         string decision;      
         printHand();
 
-        cout << "Human player "<< name << ", please enter a suit, or \"pass\":" << "\n";
+        cout << "Human player "<< name
+        << ", please enter a suit, or \"pass\":" << "\n";
         cin >> decision;
 
         if (decision == "Spades"){
@@ -279,7 +281,8 @@ public:
         sort(hand.begin(), hand.end());
 
         for (int i = 0, size = hand.size(); i != size; ++i){
-            cout << "Human player "<< name << "'s hand: " << "[" << i << "] " << hand[i] << endl;
+            cout << "Human player "<< name << "'s hand: "
+            << "[" << i << "] " << hand[i] << endl;
         }
         hand.push_back(upcard);
 
@@ -300,7 +303,8 @@ public:
         sort(hand.begin(), hand.end());
 
         for (int i = 0, size = hand.size(); i != size; ++i){
-            cout << "Human player "<< name << "'s hand: " << "[" << i << "] " << hand[i] << endl;
+            cout << "Human player "<< name << "'s hand: "
+            << "[" << i << "] " << hand[i] << endl;
         }
         cout << "Human player " << name << ", please select a card:" <<endl;
         cin >> cardNumber;

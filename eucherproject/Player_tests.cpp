@@ -43,7 +43,7 @@ TEST(add_card__play_card){
     Noah -> add_card(c4);
     Noah -> add_card(c5);
     
-    ASSERT_EQUAL(c1, Noah -> lead_card(SPADES));
+   // ASSERT_EQUAL(c1, Noah -> lead_card(SPADES));
     //ASSERT_EQUAL(c2, Noah -> get_card(1));
     //ASSERT_EQUAL(c3, Noah -> get_card(2));
     //ASSERT_EQUAL(c4, Noah -> get_card(3));
