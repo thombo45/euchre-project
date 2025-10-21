@@ -12,9 +12,6 @@ using std::string;
 
 class Simple : public Player {
     public:
-   // Card get_card(int i) override{
-   //     return hand[i];
-  //  }
     Simple(const string &inName) {
         name = inName;
     }
@@ -109,15 +106,13 @@ class Simple : public Player {
                 }
             }
         }
-       // cout << hand[handIndex] << " led by " << name << endl;
+
         hand.erase(hand.begin() + handIndex);
         return high;
          
     }
      Card play_card(const Card &led_card,
                     Suit trump) override {
-  
-         
         Card high, low;
         int comparisonHigh = 0;
         int comparisonLow = 0; 
@@ -128,10 +123,7 @@ class Simple : public Player {
          if(is_L_C_L_B == true){
              suit_of_led_card = trump;
          }
-        // cout << "suit of led card is "<< suit_of_led_card << endl;
-         //if suit of lead card is trump
-            //must evaluate left bower acordingly
-       //  bool have_right_bower = false;
+
          bool have_left_bower = false;
          if(suit_of_led_card == trump){
              for(int i = 0; i < hand.size(); i++){
@@ -211,11 +203,7 @@ private:
 };
 
 class Human : public Player {
-public:
-   // Card get_card(int i) override{
-   //     return hand[i];
-   // }
-    
+public:    
     void printHand() const {
         std::vector<Card> temp = hand;
         std::sort(temp.begin(), temp.end());
@@ -225,10 +213,6 @@ public:
             << "[" << i << "] " << temp[i] << '\n';
         }
     }
-
-   // Card get_card(int i) override {
-   //     return hand[i];
-   // }
 
     Human(const string &inName) {
         name = inName;
@@ -308,7 +292,6 @@ public:
         }
         cout << "Human player " << name << ", please select a card:" <<endl;
         cin >> cardNumber;
-        //cout << hand[cardNumber] << " led by " << name << endl;
         
         leadCard = hand[cardNumber];
         hand.erase(hand.begin() + cardNumber);
@@ -324,7 +307,6 @@ private:
 };
 
  
-
 //EFFECTS: Returns a pointer to a player with the given name and strategy
 //To create an object that won't go out of scope when the function returns,
 //use "return new Simple(name)" or "return new Human(name)"

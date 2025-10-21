@@ -7,9 +7,6 @@ const int firstCard = 0;
 const int LastCard = 23;
 const int startArray = 7;
 const int ranks = 13;
-//const int suits = 4;
-//unused causes error
-
 
   // EFFECTS: Initializes the Pack to be in the following standard order:
   //          the cards of the lowest suit arranged from lowest rank to

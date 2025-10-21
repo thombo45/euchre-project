@@ -1,10 +1,7 @@
-//
 //  euchre.cpp
 //  eucherproject
 //
 //  Created by Thomas Boyle on 10/17/25.
-//
-
 
 #include "Player.hpp"
 #include "Pack.hpp"
@@ -13,13 +10,11 @@
 #include <fstream>
 #include <stdlib.h>
 
-
 using namespace std;
 
 class Game {
 public:
     Game(int argc, char* argv[]){
-     //   cout << "it stats here" << endl << endl;
         for(int i = 0; i < 12; i++){
             cout << argv[i] << " ";
         }
@@ -68,8 +63,6 @@ public:
         }
         Pack pack(infile);
 
-        
-        
     };
     bool get_was_error(){
         return was_error;
@@ -89,7 +82,6 @@ public:
             cout << "Hand " << i << endl;
             pack.reset();
             shuffle(); //will only do if needed
-            //cout << endl << idx_dealer << " = idx dealer" << endl;
             deal();
             make_trump();
             play_hand();
@@ -146,7 +138,6 @@ private:
             idx = 3;
         }
     }
-    
     void shuffle(){
         if (will_shuffle == true){
             pack.shuffle();
@@ -209,58 +200,45 @@ private:
                 if(players[idx_P] -> make_trump(upcard, true, 1, trump) == true){
                     players[idx_dealer] -> add_and_discard(upcard);
                     who_made_trump = idx_P;
-                //    cout << players[idx_P] -> get_name() << " orders up " << trump << endl << endl;
-                    //inc_player(idx_dealer);
+
                     return;
                 }
                 else{
-               //     cout << players[idx_P] -> get_name() << " passes" << endl;
+
                 }
             }
             else{
                 if(players[idx_P] -> make_trump(upcard, false, 1, trump) == true){
                     players[idx_dealer] -> add_and_discard(upcard);
                     who_made_trump = idx_P;
-                  //  cout << players[idx_P] -> get_name() << " orders up " << trump << endl << endl;
-                    //inc_player(idx_dealer);
+
                     return;
                 }
                 else{
-                    //cout << players[idx_P] -> get_name() << " passes" << endl;
+
                 }
             }
             inc_player(idx_P);
-            //cout << endl;
         }
         
-       
         for(int i = 0; i < 4; i++){
             if(idx_P == idx_dealer){
                 if(players[idx_P] -> make_trump(upcard, true, 2, trump) == true){
-                 //   cout << players[idx_P] -> get_name() << " orders up " << trump << endl << endl;
-                    //inc_player(idx_dealer);
                     who_made_trump = idx_P;
                     return;
                 }
             }
             else{
                 if(players[idx_P] -> make_trump(upcard, false, 2, trump) == true){
-              //      cout << players[idx_P] -> get_name() << " orders up " << trump << endl << endl;
-                    //inc_player(idx_dealer);
                     who_made_trump = idx_P;
                     return;
                 }
                 else{
-                  //  cout << players[idx_P] -> get_name() << " passes" << endl;
+
                 }
             }
             inc_player(idx_P);
-        }
-        
-        
-        
-        
-        
+        }  
     };
     void play_hand(){
         int idx_P;
@@ -330,14 +308,12 @@ private:
                 hands_won_by_team_2++;
             }
         }
-        
         //award points for the hand
         bool team_1_made_trump;
         if(who_made_trump == 0 || who_made_trump == 2){
             team_1_made_trump = true;
         }
         else{team_1_made_trump = false;}
-        
         
         if(hands_won_by_team_1 > hands_won_by_team_2){
             cout << players[0] -> get_name() << " and "
@@ -374,20 +350,14 @@ private:
         else{
             team_2_pts++;
         }
-        
-        //inc_player(idx_dealer);
-        
         cout << players[0] -> get_name() << " and "
         << players[2] -> get_name() << " have "
         << team_1_pts << " points" << endl;
         cout << players[1] -> get_name() << " and "
         << players[3] -> get_name() << " have "
         << team_2_pts << " points" << endl << endl;
-        
     };
-    
 };
-
 
 
 int main(int argc, char* argv[]) {
@@ -397,5 +367,4 @@ int main(int argc, char* argv[]) {
     }
     game.play();
     return 0;
-    
 }
