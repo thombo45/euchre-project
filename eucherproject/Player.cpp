@@ -176,7 +176,7 @@ class Simple : public Player {
          if(is_L_C_L_B == true){
              suit_of_led_card = trump;
          }
-         cout << "suit of led card is "<< suit_of_led_card << endl;
+        // cout << "suit of led card is "<< suit_of_led_card << endl;
          //if suit of lead card is trump
             //must evaluate left bower acordingly
        //  bool have_right_bower = false;
