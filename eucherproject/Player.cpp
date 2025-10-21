@@ -12,9 +12,9 @@ using std::string;
 
 class Simple : public Player {
     public:
-    Card get_card(int i) override{
-        return hand[i];
-    }
+   // Card get_card(int i) override{
+   //     return hand[i];
+  //  }
     Simple(const string &inName) {
         name = inName;
     }
@@ -25,21 +25,25 @@ class Simple : public Player {
         assert(hand.size() < MAX_HAND_SIZE);
         hand.push_back(c);
     }
-    bool make_trump(const Card &upcard, bool is_dealer, int round, Suit &order_up_suit) const override {
+    bool make_trump(const Card &upcard, bool is_dealer,
+                    int round, Suit &order_up_suit) const override {
         assert(round == 1 || round == 2);
         if (round == 1) {
             int trumpFace = 0;
             for (int i = 0, size = hand.size(); i != size; ++i) {
-                if ((hand[i].is_trump(upcard.get_suit()) && hand[i].is_face_or_ace())
+                if ((hand[i].is_trump(upcard.get_suit())
+                     && hand[i].is_face_or_ace())
             || hand[i].is_left_bower(upcard.get_suit())) {
                 ++trumpFace;
             }
             }
             if(trumpFace >= 2) {
                 order_up_suit = upcard.get_suit();
+                cout << name << " orders up " << order_up_suit << "\n\n";
                 return true;
             }
             else {
+                cout << name << " passes" << endl;
                 return false;
             }
         }
@@ -47,16 +51,19 @@ class Simple : public Player {
             Suit nextSuit = Suit_next(upcard.get_suit());
             if (is_dealer) {
                 order_up_suit = nextSuit;
+                cout << name << " orders up " << order_up_suit << "\n\n";
                 return true;
             }
             for (int i = 0, size = hand.size(); i != size; ++i) {
                 if ((hand[i].is_trump(nextSuit) && hand[i].is_face_or_ace())
                 || hand[i].is_left_bower(nextSuit)) {
                     order_up_suit = nextSuit;
+                    cout << name << " orders up " << order_up_suit << "\n\n";
                     return true;
                 }
             }
         }
+        cout << name << " passes" << endl;
         return false;
     }
     void add_and_discard(const Card &upcard) override {
@@ -88,7 +95,8 @@ class Simple : public Player {
                     nonTrump = 1;
                 }
             }
-            if(!hand[i].is_trump(trump) && hand[i] > high) {
+            if(!hand[i].is_trump(trump)
+               && hand[i] > high) {
                 high = hand[i];
                 handIndex = i;
             }
@@ -101,70 +109,14 @@ class Simple : public Player {
                 }
             }
         }
+       // cout << hand[handIndex] << " led by " << name << endl;
         hand.erase(hand.begin() + handIndex);
         return high;
          
     }
-     Card play_card(const Card &led_card, Suit trump) override {
-         /*
-         Card to_be_returned = hand[0];
-         int idx_to_be_returned = 0;
-         Suit suit_of_led_card = led_card.get_suit();
-         if(led_card.is_left_bower(trump)){
-             suit_of_led_card = trump;
-         }
-
-            //can we follow suit
-         bool can_follow_suit = false;
-         bool we_have_left = false;
-         for(int i = 0; i < hand.size();i++){
-             // if a card matched led card
-             if(hand[i].get_suit() == suit_of_led_card){
-                 can_follow_suit = true;
-             }
-             //if trump is led and we have right bower
-             if(suit_of_led_card == trump && hand[i].is_right_bower(trump)){
-                 to_be_returned = hand[i];
-                 hand.erase(hand.begin() + i);
-                 return to_be_returned;
-             }
-             //if trump is led and we have left bower
-             if(suit_of_led_card == trump && hand[i].is_left_bower(trump)){
-                 we_have_left = true;
-                 to_be_returned = hand[i];
-                 idx_to_be_returned = i;
-             }
-         }
-         //will only exicute if we have left & not right & it follows suit
-         if(we_have_left == true){
-             hand.erase(hand.begin() + idx_to_be_returned);
-             return to_be_returned;
-         }
-         //cannot follow suit - return lowest card
-         if(can_follow_suit == false){
-             for(int i = 1; i < hand.size(); i++){
-                 if(hand[i] < to_be_returned){
-                     to_be_returned = hand[i];
-                     idx_to_be_returned = i;
-                 }
-             }
-         }
-         
-         //can follow suit - return highest card that follows suit
-         if(can_follow_suit == true){
-             for(int i = 1; i < hand.size(); i++){
-                 //if current card to be retuned in < this card
-                 if(hand[i] > to_be_returned){
-                     to_be_returned = hand[i];
-                     idx_to_be_returned = i;
-                 }
-             }
-             
-         }
-         
-         hand.erase(hand.begin() + idx_to_be_returned);
-         return to_be_returned;
-         */
+     Card play_card(const Card &led_card,
+                    Suit trump) override {
+  
          
         Card high, low;
         int comparisonHigh = 0;
@@ -218,7 +170,8 @@ class Simple : public Player {
                     high = hand[i];
                     indexHigh = i;
                 }
-                if (hand[i].get_suit() == suit_of_led_card && !hand[i].is_left_bower(trump)){
+                if (hand[i].get_suit() == suit_of_led_card &&
+                    !hand[i].is_left_bower(trump)){
                     high = hand[i];
                     comparisonHigh = 1;
                     indexHigh = i;
@@ -259,9 +212,9 @@ private:
 
 class Human : public Player {
 public:
-    Card get_card(int i) override{
-        return hand[i];
-    }
+   // Card get_card(int i) override{
+   //     return hand[i];
+   // }
     
     void printHand() const {
         std::vector<Card> temp = hand;
@@ -351,7 +304,7 @@ public:
         }
         cout << "Human player " << name << ", please select a card:" <<endl;
         cin >> cardNumber;
-        cout << hand[cardNumber] << " led by " << name << endl;
+        //cout << hand[cardNumber] << " led by " << name << endl;
         
         leadCard = hand[cardNumber];
         hand.erase(hand.begin() + cardNumber);

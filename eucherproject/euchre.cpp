@@ -204,24 +204,24 @@ private:
                 if(players[idx_P] -> make_trump(upcard, true, 1, trump) == true){
                     players[idx_dealer] -> add_and_discard(upcard);
                     who_made_trump = idx_P;
-                    cout << players[idx_P] -> get_name() << " orders up " << trump << endl << endl;
+                //    cout << players[idx_P] -> get_name() << " orders up " << trump << endl << endl;
                     //inc_player(idx_dealer);
                     return;
                 }
                 else{
-                    cout << players[idx_P] -> get_name() << " passes" << endl;
+               //     cout << players[idx_P] -> get_name() << " passes" << endl;
                 }
             }
             else{
                 if(players[idx_P] -> make_trump(upcard, false, 1, trump) == true){
                     players[idx_dealer] -> add_and_discard(upcard);
                     who_made_trump = idx_P;
-                    cout << players[idx_P] -> get_name() << " orders up " << trump << endl << endl;
+                  //  cout << players[idx_P] -> get_name() << " orders up " << trump << endl << endl;
                     //inc_player(idx_dealer);
                     return;
                 }
                 else{
-                    cout << players[idx_P] -> get_name() << " passes" << endl;
+                    //cout << players[idx_P] -> get_name() << " passes" << endl;
                 }
             }
             inc_player(idx_P);
@@ -232,7 +232,7 @@ private:
         for(int i = 0; i < 4; i++){
             if(idx_P == idx_dealer){
                 if(players[idx_P] -> make_trump(upcard, true, 2, trump) == true){
-                    cout << players[idx_P] -> get_name() << " orders up " << trump << endl << endl;
+                 //   cout << players[idx_P] -> get_name() << " orders up " << trump << endl << endl;
                     //inc_player(idx_dealer);
                     who_made_trump = idx_P;
                     return;
@@ -240,13 +240,13 @@ private:
             }
             else{
                 if(players[idx_P] -> make_trump(upcard, false, 2, trump) == true){
-                    cout << players[idx_P] -> get_name() << " orders up " << trump << endl << endl;
+              //      cout << players[idx_P] -> get_name() << " orders up " << trump << endl << endl;
                     //inc_player(idx_dealer);
                     who_made_trump = idx_P;
                     return;
                 }
                 else{
-                    cout << players[idx_P] -> get_name() << " passes" << endl;
+                  //  cout << players[idx_P] -> get_name() << " passes" << endl;
                 }
             }
             inc_player(idx_P);
