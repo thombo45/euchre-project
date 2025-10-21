@@ -11,36 +11,172 @@ TEST(test_player_get_name) {
 
     delete alice;
 }
-TEST(PLAY_CARD_when_left_bower_is_led){
+TEST(PLAY_CARD_LB_led_CFS_w_RB){
     Player * Noah = Player_factory("Noah", "Simple");
-    Card c1(NINE, CLUBS);
+    Card c1(NINE, SPADES);
     Card c2(TEN, CLUBS);
     Card c3(QUEEN, DIAMONDS);
+    Card c4(KING, SPADES);
+    Card c5(JACK, SPADES);
     
     Card led(JACK, CLUBS);
     
     Noah -> add_card(c1);
     Noah -> add_card(c2);
     Noah -> add_card(c3);
+    Noah -> add_card(c4);
+    Noah -> add_card(c5);
     Card test = Noah -> play_card(led, SPADES);
-    ASSERT_EQUAL(test, c1);
+    ASSERT_EQUAL(test, c5);
     delete Noah;
-    
 }
-
-TEST(add_card__play_card){
+TEST(PLAY_CARD_LB_led_CFS){
     Player * Noah = Player_factory("Noah", "Simple");
-    Card c1(TWO, HEARTS);
-    Card c2(JACK, CLUBS);
-    Card c3(ACE, DIAMONDS);
-    Card c4(JACK, SPADES);
-    Card c5(NINE, HEARTS);
- 
+    Card c1(NINE, SPADES);
+    Card c2(TEN, CLUBS);
+    Card c3(QUEEN, DIAMONDS);
+    Card c4(KING, SPADES);
+    Card c5(JACK, SPADES);
+    
+    Card led(JACK, CLUBS);
+    
     Noah -> add_card(c1);
     Noah -> add_card(c2);
     Noah -> add_card(c3);
     Noah -> add_card(c4);
     Noah -> add_card(c5);
+    Card test = Noah -> play_card(led, SPADES);
+    ASSERT_EQUAL(test, c5);
+    delete Noah;
+}
+TEST(PLAY_CARD_CFS_W_Both_Bauers){
+    Player * Noah = Player_factory("Noah", "Simple");
+    Card c1(NINE, SPADES);
+    Card c2(TEN, CLUBS);
+    Card c3(JACK, CLUBS);
+    Card c4(KING, SPADES);
+    Card c5(JACK, SPADES);
+    
+    Card led(QUEEN, CLUBS);
+    
+    Noah -> add_card(c1);
+    Noah -> add_card(c2);
+    Noah -> add_card(c3);
+    Noah -> add_card(c4);
+    Noah -> add_card(c5);
+    Card test = Noah -> play_card(led, CLUBS);
+    ASSERT_EQUAL(test, c3);
+    delete Noah;
+}
+TEST(PLAY_CARD_Both_Bauers_NL_CFS){
+    Player * Noah = Player_factory("Noah", "Simple");
+    Card c1(NINE, DIAMONDS);
+    Card c2(TEN, CLUBS);
+    Card c3(JACK, CLUBS);
+    Card c4(KING, DIAMONDS);
+    Card c5(JACK, SPADES);
+    
+    Card led(QUEEN, DIAMONDS);
+    
+    Noah -> add_card(c1);
+    Noah -> add_card(c2);
+    Noah -> add_card(c3);
+    Noah -> add_card(c4);
+    Noah -> add_card(c5);
+    Card test = Noah -> play_card(led, CLUBS);
+    ASSERT_EQUAL(test, c4);
+    delete Noah;
+}
+TEST(PLAY_CARD_Both_Bauers_NL_CNFS){
+    Player * Noah = Player_factory("Noah", "Simple");
+    Card c1(NINE, DIAMONDS);
+    Card c2(TEN, CLUBS);
+    Card c3(JACK, CLUBS);
+    Card c4(KING, DIAMONDS);
+    Card c5(JACK, SPADES);
+    
+    Card led(QUEEN, HEARTS);
+    
+    Noah -> add_card(c1);
+    Noah -> add_card(c2);
+    Noah -> add_card(c3);
+    Noah -> add_card(c4);
+    Noah -> add_card(c5);
+    Card test = Noah -> play_card(led, CLUBS);
+    ASSERT_EQUAL(test, c1);
+    delete Noah;
+}
+//CNFS = Cannot Follow Suit
+TEST(PLAY_CARD_when_left_bower_is_led_CNFS){
+    Player * Noah = Player_factory("Noah", "Simple");
+    Card c1(NINE, CLUBS);
+    Card c2(TEN, CLUBS);
+    Card c3(QUEEN, DIAMONDS);
+    Card c4(KING, HEARTS);
+    Card c5(JACK, DIAMONDS);
+    
+    Card led(JACK, CLUBS);
+    
+    Noah -> add_card(c1);
+    Noah -> add_card(c2);
+    Noah -> add_card(c3);
+    Noah -> add_card(c4);
+    Noah -> add_card(c5);
+    Card test = Noah -> play_card(led, SPADES);
+    ASSERT_EQUAL(test, c1);
+    delete Noah;
+    
+}
+//CFS = Can Follow Suit
+TEST(PLAY_CARD_trump_led_CFS){
+    Player * Noah = Player_factory("Noah", "Simple");
+    Card c1(TWO, HEARTS);
+    Card c2(THREE, HEARTS);
+    Card c3(FOUR, HEARTS);
+    Card c4(FIVE, HEARTS);
+    Card c5(SIX, HEARTS);
+    
+    Noah -> add_card(c1);
+    Noah -> add_card(c2);
+    Noah -> add_card(c3);
+    Noah -> add_card(c4);
+    Noah -> add_card(c5);
+    
+    Card led(JACK,HEARTS);
+    
+    Card test = Noah -> play_card(led, HEARTS);
+    
+    ASSERT_EQUAL(test, c5);
+    delete Noah;
+}
+TEST(add_card__play_card){
+    Player * Noah = Player_factory("Noah", "Simple");
+    Card c1(TWO, HEARTS);
+    Card c2(THREE, HEARTS);
+    Card c3(FOUR, HEARTS);
+    Card c4(FIVE, HEARTS);
+    Card c5(SIX, HEARTS);
+ 
+    Card led(KING, SPADES);
+    
+    Noah -> add_card(c1);
+    Noah -> add_card(c2);
+    Noah -> add_card(c3);
+    Noah -> add_card(c4);
+    Noah -> add_card(c5);
+    
+    Card test;
+    test = Noah -> play_card(led, SPADES);
+    ASSERT_EQUAL(test, c1);
+    test = Noah -> play_card(led, SPADES);
+    ASSERT_EQUAL(test, c2);
+    test = Noah -> play_card(led, SPADES);
+    ASSERT_EQUAL(test, c3);
+    test = Noah -> play_card(led, SPADES);
+    ASSERT_EQUAL(test, c4);
+    test = Noah -> play_card(led, SPADES);
+    ASSERT_EQUAL(test, c5);
+    
 
     delete Noah;
 }
@@ -417,8 +553,6 @@ TEST(play_card_follow_suit_with_trump){
     
     card_played = Noah -> play_card(card_led, trump);
     
-    cout << card_played << " == " << c1<< endl;
-    
     delete Noah;
 }
 
@@ -467,7 +601,7 @@ TEST(play_card_cant_follow_suit_with_trump){
     
     card_played = Noah -> play_card(card_led, trump);
     
-    cout << card_played << " == " << c5 << endl;
+  
 
     ASSERT_TRUE(card_played == c5);
     
@@ -495,8 +629,6 @@ TEST(play_card_cant_follow_suit_all_trump){
     
     card_played = Noah -> play_card(card_led, trump);
     
-    cout << card_played << " == " << c5 << endl;
-
     ASSERT_TRUE(card_played == c5);
 
     delete Noah;
