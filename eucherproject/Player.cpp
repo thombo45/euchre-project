@@ -208,11 +208,12 @@ class Simple : public Player {
                 if (led_card.get_suit() == trump && hand[i].is_left_bower(trump)) {
                     high = hand[i];
                     indexHigh = i;
-                } else if (hand[i] > high && hand[i].get_suit() == suit_of_led_card) {
-                    if (!hand[i].is_left_bower(trump)) {
+                } else if (hand[i] > high && hand[i].get_suit() == suit_of_led_card
+                           &&!hand[i].is_left_bower(trump)) {
+                    //if (!hand[i].is_left_bower(trump)) {
                         high = hand[i];
                         indexHigh = i;
-                    }
+                    //}
                 }
             }
         }

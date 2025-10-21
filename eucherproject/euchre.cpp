@@ -255,12 +255,12 @@ private:
         int idx_P = (idx_dealer == 3) ? 0 : idx_dealer + 1;
 
         // First trick
-        int Current_winner = play_trick(players, idx_P, trump,
+        int Current_winner = play_trick(players, idx_P, /*trump,*/
                                         hands_won_by_team_1, hands_won_by_team_2);
 
         // Remaining 4 tricks
         for (int i = 0; i < 4; ++i) {
-            Current_winner = play_trick(players, Current_winner, trump,
+            Current_winner = play_trick(players, Current_winner,/*trump,*/
                                         hands_won_by_team_1, hands_won_by_team_2);
         }
 
@@ -301,7 +301,7 @@ private:
             << " have " << team_2_pts << " points" << endl << endl;
     }
 
-    int play_trick(vector<Player*> &players, int start_idx, Suit trump,
+    int play_trick(vector<Player*> &players, int start_idx, /*Suit trump,*/
                int &hands_won_by_team_1, int &hands_won_by_team_2) {
 
         int idx_P = start_idx;
