@@ -387,9 +387,24 @@ TEST(add_discard_UpCard){
     Noah -> add_card(c5);
     
     Noah -> add_and_discard(UpC);
+    
+    Card led(NINE, HEARTS);
+    Card test;
+    
+    test = Noah -> play_card(led, HEARTS);
+    ASSERT_EQUAL(test, c2);
+    test = Noah -> play_card(led, HEARTS);
+    ASSERT_EQUAL(test, c3);
+    test = Noah -> play_card(led, HEARTS);
+    ASSERT_EQUAL(test, c4);
+    test = Noah -> play_card(led, HEARTS);
+    ASSERT_EQUAL(test, c5);
+    test = Noah -> play_card(led, HEARTS);
+    ASSERT_EQUAL(test, c1);
 
     delete Noah;
 }
+
 TEST(add_discard_UpCard_only_trump){
     Player * Noah = Player_factory("Noah", "Simple");
     Card c1(THREE, HEARTS);
@@ -407,6 +422,20 @@ TEST(add_discard_UpCard_only_trump){
     Noah -> add_card(c5);
     
     Noah -> add_and_discard(UpC);
+    
+    Card led(NINE, HEARTS);
+    Card test;
+    
+    test = Noah -> play_card(led, SPADES);
+    ASSERT_EQUAL(test, c3);
+    test = Noah -> play_card(led, SPADES);
+    ASSERT_EQUAL(test, c5);
+    test = Noah -> play_card(led, SPADES);
+    ASSERT_EQUAL(test, c2);
+    test = Noah -> play_card(led, SPADES);
+    ASSERT_EQUAL(test, c4);
+    test = Noah -> play_card(led, SPADES);
+    ASSERT_EQUAL(test, UpC);
 
     delete Noah;
 }
@@ -420,7 +449,9 @@ TEST(add_discard_Keep_UpCard){
     Card c5(KING, CLUBS);
     
     Card UpC(TEN, HEARTS);
-    Card Test(KING, CLUBS);
+    Card test;
+    
+    Card led(NINE, HEARTS);
     
     Noah -> add_card(c1);
     Noah -> add_card(c2);
@@ -429,6 +460,17 @@ TEST(add_discard_Keep_UpCard){
     Noah -> add_card(c5);
     
     Noah -> add_and_discard(UpC);
+    
+    test = Noah -> play_card(led, SPADES);
+    ASSERT_EQUAL(test, c3);
+    test = Noah -> play_card(led, SPADES);
+    ASSERT_EQUAL(test, c4);
+    test = Noah -> play_card(led, SPADES);
+    ASSERT_EQUAL(test, c2);
+    test = Noah -> play_card(led, SPADES);
+    ASSERT_EQUAL(test, UpC);
+    test = Noah -> play_card(led, SPADES);
+    ASSERT_EQUAL(test, c1);
 
     delete Noah;
     }
@@ -532,7 +574,7 @@ TEST(play_card_follow_suit_not_trump){
 
     delete Noah;
 }
-
+//NO ASSERT
 TEST(play_card_follow_suit_with_trump){
     Player * Noah = Player_factory("Noah", "Simple");
     Card c1(JACK, DIAMONDS);
@@ -552,7 +594,7 @@ TEST(play_card_follow_suit_with_trump){
     Noah -> add_card(c5);
     
     card_played = Noah -> play_card(card_led, trump);
-    
+    ASSERT_EQUAL(c1, card_played);
     delete Noah;
 }
 

@@ -36,11 +36,11 @@ class Simple : public Player {
             }
             if(trumpFace >= 2) {
                 order_up_suit = upcard.get_suit();
-                cout << name << " orders up " << order_up_suit << "\n\n";
+              //  cout << name << " orders up " << order_up_suit << "\n\n";
                 return true;
             }
             else {
-                cout << name << " passes" << endl;
+            //    cout << name << " passes" << endl;
                 return false;
             }
         }
@@ -48,19 +48,19 @@ class Simple : public Player {
             Suit nextSuit = Suit_next(upcard.get_suit());
             if (is_dealer) {
                 order_up_suit = nextSuit;
-                cout << name << " orders up " << order_up_suit << "\n\n";
+              //  cout << name << " orders up " << order_up_suit << "\n\n";
                 return true;
             }
             for (int i = 0, size = hand.size(); i != size; ++i) {
                 if ((hand[i].is_trump(nextSuit) && hand[i].is_face_or_ace())
                 || hand[i].is_left_bower(nextSuit)) {
                     order_up_suit = nextSuit;
-                    cout << name << " orders up " << order_up_suit << "\n\n";
+                    //cout << name << " orders up " << order_up_suit << "\n\n";
                     return true;
                 }
             }
         }
-        cout << name << " passes" << endl;
+     //   cout << name << " passes" << endl;
         return false;
     }
     void add_and_discard(const Card &upcard) override {
@@ -261,29 +261,29 @@ public:
         cin >> decision;
 
         if (decision == "Spades"){
-            cout << name << " orders up Spades" << "\n\n";
+          //  cout << name << " orders up Spades" << "\n\n";
             order_up_suit = SPADES;
             return true;
         }
         
         else if (decision == "Hearts"){
-            cout << name << " orders up Hearts" << "\n\n";
+           // cout << name << " orders up Hearts" << "\n\n";
             order_up_suit = HEARTS;
             return true;
         }
 
         else if (decision == "Clubs"){
-            cout << name << " orders up Clubs" << "\n\n";
+          //  cout << name << " orders up Clubs" << "\n\n";
             order_up_suit = CLUBS;
             return true;
         }
 
         else if (decision == "Diamonds"){
-            cout << name << " orders up Diamonds" << "\n\n";
+          //  cout << name << " orders up Diamonds" << "\n\n";
             order_up_suit = DIAMONDS;
             return true;
         }
-        cout << name << " passes" << endl;
+      //  cout << name << " passes" << endl;
         return false;
     }
     void add_and_discard(const Card &upcard) override {
