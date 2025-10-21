@@ -11,6 +11,22 @@ TEST(test_player_get_name) {
 
     delete alice;
 }
+TEST(PLAY_CARD_when_left_bower_is_led){
+    Player * Noah = Player_factory("Noah", "Simple");
+    Card c1(NINE, CLUBS);
+    Card c2(TEN, CLUBS);
+    Card c3(QUEEN, DIAMONDS);
+    
+    Card led(JACK, CLUBS);
+    
+    Noah -> add_card(c1);
+    Noah -> add_card(c2);
+    Noah -> add_card(c3);
+    Card test = Noah -> play_card(led, SPADES);
+    ASSERT_EQUAL(test, c1);
+    delete Noah;
+    
+}
 
 TEST(add_card__get_card){
     Player * Noah = Player_factory("Noah", "Simple");

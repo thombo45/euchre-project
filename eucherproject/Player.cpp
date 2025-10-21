@@ -106,16 +106,101 @@ class Simple : public Player {
          
     }
      Card play_card(const Card &led_card, Suit trump) override {
+         /*
+         Card to_be_returned = hand[0];
+         int idx_to_be_returned = 0;
+         Suit suit_of_led_card = led_card.get_suit();
+         if(led_card.is_left_bower(trump)){
+             suit_of_led_card = trump;
+         }
+
+            //can we follow suit
+         bool can_follow_suit = false;
+         bool we_have_left = false;
+         for(int i = 0; i < hand.size();i++){
+             // if a card matched led card
+             if(hand[i].get_suit() == suit_of_led_card){
+                 can_follow_suit = true;
+             }
+             //if trump is led and we have right bower
+             if(suit_of_led_card == trump && hand[i].is_right_bower(trump)){
+                 to_be_returned = hand[i];
+                 hand.erase(hand.begin() + i);
+                 return to_be_returned;
+             }
+             //if trump is led and we have left bower
+             if(suit_of_led_card == trump && hand[i].is_left_bower(trump)){
+                 we_have_left = true;
+                 to_be_returned = hand[i];
+                 idx_to_be_returned = i;
+             }
+         }
+         //will only exicute if we have left & not right & it follows suit
+         if(we_have_left == true){
+             hand.erase(hand.begin() + idx_to_be_returned);
+             return to_be_returned;
+         }
+         //cannot follow suit - return lowest card
+         if(can_follow_suit == false){
+             for(int i = 1; i < hand.size(); i++){
+                 if(hand[i] < to_be_returned){
+                     to_be_returned = hand[i];
+                     idx_to_be_returned = i;
+                 }
+             }
+         }
+         
+         //can follow suit - return highest card that follows suit
+         if(can_follow_suit == true){
+             for(int i = 1; i < hand.size(); i++){
+                 //if current card to be retuned in < this card
+                 if(hand[i] > to_be_returned){
+                     to_be_returned = hand[i];
+                     idx_to_be_returned = i;
+                 }
+             }
+             
+         }
+         
+         hand.erase(hand.begin() + idx_to_be_returned);
+         return to_be_returned;
+         */
+         
         Card high, low;
         int comparisonHigh = 0;
         int comparisonLow = 0; 
         int indexHigh = 0;
         int indexLow = 0;
+         bool is_L_C_L_B = led_card.is_left_bower(trump);
          Suit suit_of_led_card = led_card.get_suit();
-         if(led_card.is_left_bower(trump)){
+         if(is_L_C_L_B == true){
              suit_of_led_card = trump;
          }
-      
+         //if suit of lead card is trump
+            //must evaluate left bower acordingly
+       //  bool have_right_bower = false;
+         bool have_left_bower = false;
+         if(suit_of_led_card == trump){
+             for(int i = 0; i < hand.size(); i++){
+                 if(hand[i].is_right_bower(trump)){
+                    // have_right_bower = true;
+                     high = hand[i];
+                     indexHigh = i;
+                     hand.erase(hand.begin() + indexHigh);
+                     return high;
+                     
+                 }
+                 if(hand[i].is_left_bower(trump)){
+                     high = hand[i];
+                     indexHigh = i;
+                     have_left_bower = true;
+                 }
+             }
+         }
+         if(have_left_bower == true){
+             hand.erase(hand.begin() + indexHigh);
+             return high;
+         }
 
         for (int i = 0, size = hand.size(); i != size; ++i) {
             if (comparisonLow == 0){
@@ -128,6 +213,7 @@ class Simple : public Player {
             }
             if (comparisonHigh == 0){
                 if(led_card.get_suit() == trump && hand[i].is_left_bower(trump)){
+                    comparisonHigh = 1;
                     high = hand[i];
                     indexHigh = i;
                 }
@@ -163,6 +249,7 @@ class Simple : public Player {
         }
         hand.erase(hand.begin() + indexLow);
         return low;
+          
     }
 private:
     string name;
